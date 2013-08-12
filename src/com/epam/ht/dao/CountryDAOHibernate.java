@@ -1,17 +1,12 @@
 package com.epam.ht.dao;
 
-import javax.transaction.Transaction;
-
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 public class CountryDAOHibernate {
 
 	private static SessionFactory sessionFactory;
 
-	static {
+	/*static {
 		Configuration configuration = new Configuration();
 		configuration.configure("hibernate_sp.cfg.xml");
 		ServiceRegistryBuilder serviceRegistryBuilder = new ServiceRegistryBuilder()
@@ -28,6 +23,6 @@ public class CountryDAOHibernate {
 				"qweq", "kljf", "jgh", "wer", "tyuty", "cvbvc", "bnmb", "zcsd" };
 
 		tx.commit();
-	}
+	}*/
 
 }
