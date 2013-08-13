@@ -1,115 +1,33 @@
 package com.epam.ht.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EmployeeListServlet extends HttpServlet {
-	private static final long serialVersionUID = 959809129122389741L;
+	private static final long serialVersionUID = 1529606092637198325L;
+
+	private static final String DISPATCH_PATH = "dispatchPath";
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException {
+			throws ServletException, IOException {
 		processRequest(req, resp);
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException {
+			throws ServletException, IOException {
 		processRequest(req, resp);
 	}
 
-	private static void processRequest(HttpServletRequest req,
-			HttpServletResponse resp) throws ServletException {
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection con = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:xe", "yra", "1234");
-			// insert into yra.country(country_id, country_name)
-			// values(yra.country_id_seq.nextval,?)
-			PreparedStatement putCountry = con
-					.prepareStatement("insert into yra.country(country_id, country_name)"
-							+ " values(yra.country_id_seq.nextval,?)");
-			// insert into yra.city(city_id, city_name, country_id)
-			// values(yra.city_id_seq.nextval,?, yra.country_id_seq.currval)
-			PreparedStatement putCity = con
-					.prepareStatement("insert into "
-							+ "yra.city(city_id, city_name, country_id)"
-							+ " values(yra.city_id_seq.nextval,?, yra.country_id_seq.currval)");
-			// insert into yra.address(address_id, city_id, address)
-			// values(address_id_seq.nextval, city_id_seq.currval, ?)
-			PreparedStatement putAddress = con.prepareStatement("insert into "
-					+ "yra.address(address_id, city_id, address) "
-					+ "values(address_id_seq.nextval, city_id_seq.currval, ?)");
-			// insert into yra.employee(employee_id, first_name, last_name,
-			// address_id)
-			// values(yra.employee_id_seq.nextval, ?, ?,
-			// yra.address_id_seq.currval)
-			PreparedStatement putEmployee = con
-					.prepareStatement("insert into"
-							+ " yra.employee(employee_id, first_name, last_name, address_id) "
-							+ "values(yra.employee_id_seq.nextval, ?, ?, yra.address_id_seq.currval)");
-
-			// insert into yra.company(company_id, company_name)
-			// values(company_id_seq.nextval,?)
-			PreparedStatement putCompany = con
-					.prepareStatement("insert into yra.company(company_id, company_name) "
-							+ "values(company_id_seq.nextval,?)");
-			// insert into yra.company_address(company_id, address_id)
-			// values(yra.company_id_seq.currval, yra.address_id_seq.currval)
-			PreparedStatement putCompanyAddress = con
-					.prepareStatement("insert into "
-							+ "yra.company_address(company_id, address_id)"
-							+ " values(yra.company_id_seq.currval, yra.address_id_seq.currval)");
-			// insert into yra.company_employee(company_id, employee_id,
-			// position) values(yra.company_id_seq.currval,
-			// yra.employee_id_seq.currval, ?)
-			PreparedStatement putCompanyEmployee = con
-					.prepareStatement("insert "
-							+ "into yra.company_employee(company_id, employee_id,position) "
-							+ "values(yra.company_id_seq.currval,yra.employee_id_seq.currval, ?)");
-			for (int i = 0; i < 10; i++) {
-				putCountry.setString(1, "Russia");
-				putCountry.executeUpdate();
-
-				putCity.setString(1, "Moscow");
-				putCity.executeUpdate();
-
-				putAddress.setString(1, "Red street");
-				putAddress.executeUpdate();
-
-				if ((i % 2) == 0) {
-					putEmployee.setString(1, "Vasya");
-					putEmployee.setString(2, "Ribkin");
-					putEmployee.executeUpdate();
-				} else {
-					putCompany.setString(1, "Gasprom");
-					putCompany.executeUpdate();
-					putCompanyAddress.executeUpdate();
-				}
-
-				if (i > 2) {
-					putCompanyEmployee.setString(1, "accountant");
-					putCompanyEmployee.executeUpdate();
-				}
-			}
-
-			putCountry.close();
-			putCity.close();
-			putAddress.close();
-			putEmployee.close();
-			putCompanyAddress.close();
-			con.close();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new ServletException(e);
-		}
+	private void processRequest(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+		String dispatchPath = getServletContext().getInitParameter(
+				DISPATCH_PATH);
+		RequestDispatcher dispatcher = req.getRequestDispatcher(dispatchPath);
+		dispatcher.forward(req, resp);
 	}
 }

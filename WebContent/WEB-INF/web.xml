@@ -15,4 +15,8 @@
 		<servlet-name>controller</servlet-name>
 		<url-pattern>/controller</url-pattern>
 	</servlet-mapping>
+	<context-param>
+		<param-name>dispatchPath</param-name>
+		<param-value>/WEB-INF/pages/employeeList.jsp</param-value>
+	</context-param>
 </web-app>
