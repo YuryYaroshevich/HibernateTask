@@ -1,6 +1,9 @@
-package com.epam.ht.entity;
+package com.epam.ht.entity.employee;
 
 import java.util.List;
+
+import com.epam.ht.entity.address.Address;
+import com.epam.ht.entity.office.Office;
 
 public class Employee {
 	private long employeeId;

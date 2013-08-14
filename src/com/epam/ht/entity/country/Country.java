@@ -1,4 +1,4 @@
-package com.epam.ht.entity;
+package com.epam.ht.entity.country;
 
 public class Country {
 	private String name;
@@ -18,5 +18,9 @@ public class Country {
 
 	public void setCountryId(long countryId) {
 		this.countryId = countryId;
+	}
+	
+	public String toString() {
+		return name;
 	}
 }

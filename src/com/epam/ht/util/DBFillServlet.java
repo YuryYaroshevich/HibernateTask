@@ -1,4 +1,4 @@
-package com.epam.ht.controller;
+package com.epam.ht.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

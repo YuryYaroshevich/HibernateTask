@@ -1,4 +1,4 @@
-package com.epam.ht.entity;
+package com.epam.ht.entity.company;
 
 public class Company {
 	private long companyId;
@@ -19,5 +19,8 @@ public class Company {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	public String toString() {
+		return name;
+	}
 }

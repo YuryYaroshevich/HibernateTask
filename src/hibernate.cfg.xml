@@ -28,6 +28,11 @@
 		<property name="hibernate.c3p0.max_statements">50</property>
 		<property name="hibernate.c3p0.idle_test_period">3000</property>
 
-		<mapping resource="com/epam/ht/entity/Entities.hbm.xml" />
+		<mapping resource="com/epam/ht/entity/address/address.hbm.xml" />
+		<mapping resource="com/epam/ht/entity/city/city.hbm.xml" />
+		<mapping resource="com/epam/ht/entity/company/company.hbm.xml" />
+		<mapping resource="com/epam/ht/entity/country/country.hbm.xml" />
+		<mapping resource="com/epam/ht/entity/employee/employee.hbm.xml" />
+		<mapping resource="com/epam/ht/entity/office/office.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

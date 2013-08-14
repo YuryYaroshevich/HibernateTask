@@ -1,4 +1,6 @@
-package com.epam.ht.entity;
+package com.epam.ht.entity.address;
+
+import com.epam.ht.entity.city.City;
 
 public class Address {
 	private long addressId;
@@ -28,5 +30,9 @@ public class Address {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+	
+	public String toString() {
+		return address;
 	}
 }
