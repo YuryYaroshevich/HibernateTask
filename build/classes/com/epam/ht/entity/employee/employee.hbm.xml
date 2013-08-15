@@ -10,14 +10,13 @@
 		</id>
 		<property name="firstName" column="FIRST_NAME" type="string" />
 		<property name="lastName" column="LAST_NAME" type="string" />
-		<property name="numberOfEmployees" formula="" />
+	<!-- <property name="numberOfEmployees" formula="" /> -->
 		<one-to-one name="address" property-ref="address" />
-		<list name="offices" table="OFFICE_EMPLOYEE" lazy="true">
+		<set name="offices" table="OFFICE_EMPLOYEE">
 			<key column="EMPLOYEE_ID" />
-			<list-index column="OFFICE_ID" />
 			<many-to-many class="com.epam.ht.entity.office.Office"
 				column="OFFICE_ID" />
-		</list>
+		</set>
 	</class>
 
 	<query name="employeeList">

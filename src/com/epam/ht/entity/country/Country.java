@@ -1,8 +1,15 @@
 package com.epam.ht.entity.country;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
+	private static final long serialVersionUID = 7799307133606363130L;
+	
 	private String name;
 	private long countryId;
+	
+	public Country() {
+	}
 	
 	public String getName() {
 		return name;

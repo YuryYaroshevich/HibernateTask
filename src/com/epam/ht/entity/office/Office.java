@@ -1,21 +1,33 @@
 package com.epam.ht.entity.office;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.company.Company;
 import com.epam.ht.entity.employee.Employee;
 
-public class Office {
+public class Office implements Serializable {
+	private static final long serialVersionUID = 1130756185750654144L;
+
 	private long officeId;
-	
 	private Company company;
-	
-	private Address adderss;
-	
-	private List<Employee> employees;
+	private Address address;
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	private Set<Employee> employees;
 	
 	private int numberOfEmployees;
+	
+	public Office() {
+	}
 	
 	public int getNumberOfEmployees() {
 		return numberOfEmployees;
@@ -25,11 +37,11 @@ public class Office {
 		this.numberOfEmployees = numberOfEmployees;
 	}
 
-	public List<Employee> getEmployees() {
+	public Set<Employee> getEmployees() {
 		return employees;
 	}
 
-	public void setEmployees(List<Employee> employees) {
+	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
 	}
 
@@ -49,11 +61,4 @@ public class Office {
 		this.company = company;
 	}
 
-	public Address getAdderss() {
-		return adderss;
-	}
-
-	public void setAdderss(Address adderss) {
-		this.adderss = adderss;
-	}
 }

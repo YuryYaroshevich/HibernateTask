@@ -1,12 +1,19 @@
 package com.epam.ht.entity.address;
 
+import java.io.Serializable;
+
 import com.epam.ht.entity.city.City;
 
-public class Address {
+public class Address implements Serializable {
+	private static final long serialVersionUID = 4743510992982011631L;
+	
 	private long addressId;
 	private String address;
 	
 	private City city;
+	
+	public Address() {
+	}
 
 	public long getAddressId() {
 		return addressId;

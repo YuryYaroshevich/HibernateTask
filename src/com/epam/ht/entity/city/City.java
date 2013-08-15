@@ -1,12 +1,19 @@
 package com.epam.ht.entity.city;
 
+import java.io.Serializable;
+
 import com.epam.ht.entity.country.Country;
 
-public class City {
+public class City implements Serializable {
+	private static final long serialVersionUID = 5958802680632997798L;
+	
 	private long cityId;
 	private String name;
 	
-	private Country country;	
+	private Country country;
+	
+	public City() {
+	}
 	
 	public Country getCountry() {
 		return country;

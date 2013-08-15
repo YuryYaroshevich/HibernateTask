@@ -9,15 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epam.ht.dao.EmployeeDAO;
 import com.epam.ht.dao.EmployeeDAOFactory;
 import com.epam.ht.entity.employee.Employee;
 
+import static com.epam.ht.dao.EmployeeDAOFactory.DAOType.*;
+
 public class EmployeeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1529606092637198325L;
-	
+
 	// key for getting parameter from context
 	private static final String DISPATCH_PATH = "dispatchPath";
-	
+
 	// attribute name for setting value in session
 	private static final String EMPLOYEES = "employees";
 
@@ -33,9 +36,9 @@ public class EmployeeListServlet extends HttpServlet {
 
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		/*List<Employee> employees = EmployeeDAOFactory.getEmployeeDAO()
-				.getEmployees();
-		req.getSession(true).setAttribute(EMPLOYEES, employees);*/
+		EmployeeDAO employeeDAO = EmployeeDAOFactory.getEmployeeDAO(HIBERNATE);
+		List<Employee> employees = employeeDAO.getEmployees();
+		req.getSession(true).setAttribute(EMPLOYEES, employees);
 		String dispatchPath = getServletContext().getInitParameter(
 				DISPATCH_PATH);
 		RequestDispatcher dispatcher = req.getRequestDispatcher(dispatchPath);

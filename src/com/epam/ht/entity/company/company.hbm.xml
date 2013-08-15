@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.epam.ht.entity.company">
 	<class name="Company" table="Company">
-		<id name="company_id" column="COMPANY_ID" type="long">
+		<id name="companyId" column="COMPANY_ID" type="long">
 			<generator class="increment" />
 		</id>
 		<property name="name" column="COMPANY_NAME" />

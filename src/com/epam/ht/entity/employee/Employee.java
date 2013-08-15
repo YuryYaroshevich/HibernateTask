@@ -1,24 +1,30 @@
 package com.epam.ht.entity.employee;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Set;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
 
-public class Employee {
+public class Employee implements Serializable {
+	private static final long serialVersionUID = -8246951586123338991L;
+	
 	private long employeeId;
 	private String firstName;
 	private String lastName;
 	
 	private Address address;
 	
-	private List<Office> offices;
+	private Set<Office> offices;
 	
-	public List<Office> getOffices() {
+	public Employee() {
+	}
+	
+	public Set<Office> getOffices() {
 		return offices;
 	}
 
-	public void setOffices(List<Office> offices) {
+	public void setOffices(Set<Office> offices) {
 		this.offices = offices;
 	}
 

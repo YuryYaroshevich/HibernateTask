@@ -1,8 +1,15 @@
 package com.epam.ht.entity.company;
 
-public class Company {
+import java.io.Serializable;
+
+public class Company implements Serializable {
+	private static final long serialVersionUID = -4334175722566107012L;
+	
 	private long companyId;
 	private String name;
+	
+	public Company() {
+	}
 	
 	public long getCompanyId() {
 		return companyId;
