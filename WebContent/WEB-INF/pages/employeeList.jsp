@@ -42,7 +42,7 @@
 								<td>office.address.city</td>
 								<td>office.address.city.country</td>
 								<td>office.address</td>
-								<td></td>
+								<td>office.numberOfEmployees</td>
 								<td></td>
 							</tr>
 						</table>

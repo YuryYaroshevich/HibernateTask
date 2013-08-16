@@ -8,7 +8,9 @@
 		<id name="officeId" column="OFFICE_ID" type="long">
 			<generator class="increment" />
 		</id>
-		<set name="employees" table="OFFICE_EMPLOYEE" lazy="true">
+		<property name="numberOfEmployees"
+			formula="select count(*) from yra.OFFICE_EMPLOYEE oe where oe.office_id = office_id" />
+		<set name="employees" table="OFFICE_EMPLOYEE">
 			<key column="OFFICE_ID" />
 			<many-to-many class="com.epam.ht.entity.employee.Employee"
 				column="EMPLOYEE_ID" />

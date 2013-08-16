@@ -8,7 +8,8 @@
 		<id name="cityId" column="CITY_ID" type="long">
 			<generator class="increment" />
 		</id>
-		<property name="name" column="CITY_NAME" />
-		<many-to-one name="country" class="com.epam.ht.entity.country.Country" column="COUNTRY_ID" />
+		<property name="name" column="CITY_NAME" type="string" />
+		<many-to-one name="country" class="com.epam.ht.entity.country.Country"
+			column="COUNTRY_ID" />
 	</class>
 </hibernate-mapping>

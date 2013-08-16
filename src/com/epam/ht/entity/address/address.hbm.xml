@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.epam.ht.entity.address">
-	<class name="com.epam.ht.entity.address.Address" table="Adress">
+	<class name="Address" table="Address">
 		<id name="addressId" column="ADDRESS_ID" type="long">
 			<generator class="increment" />
 		</id>

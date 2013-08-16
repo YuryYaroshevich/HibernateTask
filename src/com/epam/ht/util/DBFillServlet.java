@@ -51,8 +51,8 @@ public class DBFillServlet extends HttpServlet {
 			// yra.address_id_seq.currval)
 			PreparedStatement putEmployee = con
 					.prepareStatement("insert into"
-							+ " yra.employee(employee_id, first_name, last_name, address_id) "
-							+ "values(yra.employee_id_seq.nextval, ?, ?, yra.address_id_seq.currval)");
+							+ " yra.employee(first_name, last_name, employee_id) "
+							+ "values(?, ?, yra.address_id_seq.currval)");
 
 			// insert into yra.company(company_id, company_name)
 			// values(company_id_seq.nextval,?)
@@ -61,18 +61,19 @@ public class DBFillServlet extends HttpServlet {
 							+ "values(company_id_seq.nextval,?)");
 			// insert into yra.company_address(company_id, address_id)
 			// values(yra.company_id_seq.currval, yra.address_id_seq.currval)
-			PreparedStatement putCompanyAddress = con
+			PreparedStatement putOffice = con
 					.prepareStatement("insert into "
-							+ "yra.company_address(company_id, address_id)"
-							+ " values(yra.company_id_seq.currval, yra.address_id_seq.currval)");
+							+ "yra.office(company_id, address_id, office_id)"
+							+ " values(yra.company_id_seq.currval, yra.address_id_seq.currval,"
+							+ " yra.office_id_seq.nextval)");
 			// insert into yra.company_employee(company_id, employee_id,
 			// position) values(yra.company_id_seq.currval,
 			// yra.employee_id_seq.currval, ?)
-			PreparedStatement putCompanyEmployee = con
+			PreparedStatement putOfficeEmployee = con
 					.prepareStatement("insert "
-							+ "into yra.company_employee(company_id, employee_id,position) "
-							+ "values(yra.company_id_seq.currval,yra.employee_id_seq.currval, ?)");
-			for (int i = 0; i < 5000; i++) {
+							+ "into yra.office_employee(office_id, employee_id,position) "
+							+ "values(yra.office_id_seq.currval,yra.address_id_seq.currval, ?)");
+			for (int i = 0; i < 15000; i++) {
 				putCountry.setString(1, "USA");
 				putCountry.executeUpdate();
 
@@ -81,20 +82,19 @@ public class DBFillServlet extends HttpServlet {
 
 				putAddress.setString(1, "Cave");
 				putAddress.executeUpdate();
-
+				
 				if ((i % 2) == 0) {
 					putEmployee.setString(1, "Dark");
 					putEmployee.setString(2, "Knight");
 					putEmployee.executeUpdate();
+					if (i > 2) {
+						putOfficeEmployee.setString(1, "superhero");
+						putOfficeEmployee.executeUpdate();
+					}
 				} else {
-					putCompany.setString(1, "CleamCity");
+					putCompany.setString(1, "CleanCity");
 					putCompany.executeUpdate();
-					putCompanyAddress.executeUpdate();
-				}
-
-				if (i > 2) {
-					putCompanyEmployee.setString(1, "superhero");
-					putCompanyEmployee.executeUpdate();
+					putOffice.executeUpdate();
 				}
 			}
 
@@ -102,7 +102,7 @@ public class DBFillServlet extends HttpServlet {
 			putCity.close();
 			putAddress.close();
 			putEmployee.close();
-			putCompanyAddress.close();
+			putOfficeEmployee.close();
 			con.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

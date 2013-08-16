@@ -14,19 +14,19 @@ public class Office implements Serializable {
 	private Company company;
 	private Address address;
 
+	private Set<Employee> employees;
+	
+	private int numberOfEmployees;
+	
+	public Office() {
+	}
+	
 	public Address getAddress() {
 		return address;
 	}
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	private Set<Employee> employees;
-	
-	private int numberOfEmployees;
-	
-	public Office() {
 	}
 	
 	public int getNumberOfEmployees() {

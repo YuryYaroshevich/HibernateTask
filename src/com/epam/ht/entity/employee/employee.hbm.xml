@@ -10,9 +10,10 @@
 		</id>
 		<property name="firstName" column="FIRST_NAME" type="string" />
 		<property name="lastName" column="LAST_NAME" type="string" />
-	<!-- <property name="numberOfEmployees" formula="" /> -->
-		<one-to-one name="address" property-ref="address" />
-		<set name="offices" table="OFFICE_EMPLOYEE">
+		<many-to-one name="address" column="EMPLOYEE_ID" unique="true"
+			not-null="true" class="com.epam.ht.entity.address.Address" insert="false"
+			update="false" />
+		<set name="offices" table="OFFICE_EMPLOYEE" lazy="false">
 			<key column="EMPLOYEE_ID" />
 			<many-to-many class="com.epam.ht.entity.office.Office"
 				column="OFFICE_ID" />
