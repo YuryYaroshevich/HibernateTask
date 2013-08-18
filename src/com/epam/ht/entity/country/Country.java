@@ -6,7 +6,7 @@ public class Country implements Serializable {
 	private static final long serialVersionUID = 7799307133606363130L;
 	
 	private String name;
-	private long countryId;
+	private long id;
 	
 	public Country() {
 	}
@@ -19,12 +19,12 @@ public class Country implements Serializable {
 		this.name = name;
 	}
 
-	public long getCountryId() {
-		return countryId;
+	public long getId() {
+		return id;
 	}
 
-	public void setCountryId(long countryId) {
-		this.countryId = countryId;
+	private void setId(long countryId) {
+		this.id = countryId;
 	}
 	
 	public String toString() {

@@ -4,12 +4,12 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.epam.ht.entity.employee">
-	<class name="Employee" table="Employee">
-		<id name="employeeId" column="EMPLOYEE_ID" type="long">
+	<class name="Employee" table="Employee" lazy="false">
+		<id name="id" column="EMPLOYEE_ID" type="long">
 			<generator class="increment" />
 		</id>
-		<property name="firstName" column="FIRST_NAME" type="string" />
-		<property name="lastName" column="LAST_NAME" type="string" />
+		<property name="firstName" column="FIRST_NAME" not-null="true" />
+		<property name="lastName" column="LAST_NAME" not-null="true" />
 		<many-to-one name="address" column="EMPLOYEE_ID" unique="true"
 			not-null="true" class="com.epam.ht.entity.address.Address" insert="false"
 			update="false" />

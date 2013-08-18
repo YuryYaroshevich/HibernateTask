@@ -13,41 +13,34 @@
 		<tr>
 			<th>Name</th>
 			<th>Address</th>
-			<th>
-				<table border="1">
-					<tr>
-						<th>Offices</th>
-					</tr>
-					<tr>
-						<th>Company name</th>
-						<th>City</th>
-						<th>Country</th>
-						<th>Address</th>
-						<th>Number of employees for given company office</th>
-						<th>Position</th>
-					</tr>
-				</table>
-			</th>
+			<th style="text-align: centrer">Offices</th>
 		</tr>
 		<jstl:forEach var="employee" items="${employees}">
 			<tr>
 				<td>${employee.firstName} ${employee.lastName}</td>
 				<td>${employee.address}</td>
-
-				<jstl:forEach var="office" items="${employee.offices}">
-					<td>
-						<table border="1">
+				<td>
+					<table border="1">
+						<tr>
+							<th>Company name</th>
+							<th>City</th>
+							<th>Country</th>
+							<th>Address</th>
+							<th>Number of employees for given company office</th>
+							<th>Position</th>
+						</tr>
+						<jstl:forEach var="office" items="${employee.offices}">
 							<tr>
-								<td>office.company</td>
-								<td>office.address.city</td>
-								<td>office.address.city.country</td>
-								<td>office.address</td>
-								<td>office.numberOfEmployees</td>
+								<td>${office.company}</td>
+								<td>${office.address.city}</td>
+								<td>${office.address.city.country}</td>
+								<td>${office.address}</td>
+								<td>${office.numberOfEmployees}</td>
 								<td></td>
 							</tr>
-						</table>
-					</td>
-				</jstl:forEach>
+						</jstl:forEach>
+					</table>
+				</td>
 			</tr>
 		</jstl:forEach>
 	</table>

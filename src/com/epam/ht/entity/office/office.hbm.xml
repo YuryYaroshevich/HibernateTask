@@ -4,13 +4,16 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.epam.ht.entity.office">
-	<class name="Office" table="Office">
-		<id name="officeId" column="OFFICE_ID" type="long">
+	<class name="Office" table="Office" lazy="false">
+		<id name="id" column="OFFICE_ID" type="long">
 			<generator class="increment" />
 		</id>
-		<property name="numberOfEmployees"
-			formula="select count(*) from yra.OFFICE_EMPLOYEE oe where oe.office_id = office_id" />
-		<set name="employees" table="OFFICE_EMPLOYEE">
+		<property name="numberOfEmployees" type="int">
+			<formula>(select count(*) from yra.OFFICE_EMPLOYEE oe where
+				oe.office_id
+				= office_id)</formula>
+		</property>
+		<set name="employees" table="OFFICE_EMPLOYEE" lazy="true">
 			<key column="OFFICE_ID" />
 			<many-to-many class="com.epam.ht.entity.employee.Employee"
 				column="EMPLOYEE_ID" />

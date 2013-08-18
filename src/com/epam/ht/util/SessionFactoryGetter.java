@@ -7,7 +7,7 @@ import org.hibernate.service.ServiceRegistryBuilder;
 import static com.epam.ht.resource.PropertyGetter.getProperty;
 import static com.epam.ht.constant.HTConstant.*;
 
-public class SessionFactoryGetter {
+public final class SessionFactoryGetter {
 	private static final SessionFactory sessionFactory;
 	
 	static {
@@ -18,6 +18,9 @@ public class SessionFactoryGetter {
 		sessionFactory = configuration
 				.buildSessionFactory(serviceRegistryBuilder
 						.buildServiceRegistry());
+	}
+	
+	private SessionFactoryGetter() {
 	}
 	
 	public static SessionFactory getSessionFactory() {

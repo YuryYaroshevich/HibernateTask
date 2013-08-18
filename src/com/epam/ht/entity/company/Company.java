@@ -5,18 +5,18 @@ import java.io.Serializable;
 public class Company implements Serializable {
 	private static final long serialVersionUID = -4334175722566107012L;
 	
-	private long companyId;
+	private long id;
 	private String name;
 	
 	public Company() {
 	}
 	
-	public long getCompanyId() {
-		return companyId;
+	public long getId() {
+		return id;
 	}
 	
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
+	private void setId(long companyId) {
+		this.id = companyId;
 	}
 	
 	public String getName() {

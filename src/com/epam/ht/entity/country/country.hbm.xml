@@ -4,10 +4,10 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.epam.ht.entity.country">
-	<class name="Country" table="Country">
-		<id name="countryId" column="COUNTRY_ID" type="long">
+	<class name="Country" table="Country" lazy="false">
+		<id name="id" column="COUNTRY_ID" type="long">
 			<generator class="increment" />
 		</id>
-		<property name="name" column="COUNTRY_NAME" type="string" />
+		<property name="name" column="COUNTRY_NAME" not-null="true" />
 	</class>
 </hibernate-mapping>

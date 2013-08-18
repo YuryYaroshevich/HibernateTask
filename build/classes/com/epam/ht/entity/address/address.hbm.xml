@@ -4,11 +4,11 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.epam.ht.entity.address">
-	<class name="Address" table="Address">
-		<id name="addressId" column="ADDRESS_ID" type="long">
+	<class name="Address" table="Address" lazy="false">
+		<id name="id" column="ADDRESS_ID" type="long">
 			<generator class="increment" />
 		</id>
-		<property name="address" column="ADDRESS" type="string" />
+		<property name="address" column="ADDRESS" not-null="true" />
 		<many-to-one name="city" class="com.epam.ht.entity.city.City"
 			column="CITY_ID" />
 	</class>

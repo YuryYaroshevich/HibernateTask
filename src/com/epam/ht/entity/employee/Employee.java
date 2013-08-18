@@ -9,7 +9,7 @@ import com.epam.ht.entity.office.Office;
 public class Employee implements Serializable {
 	private static final long serialVersionUID = -8246951586123338991L;
 	
-	private long employeeId;
+	private long id;
 	private String firstName;
 	private String lastName;
 	
@@ -36,12 +36,12 @@ public class Employee implements Serializable {
 		this.address = address;
 	}
 
-	public long getEmployeeId() {
-		return employeeId;
+	public long getId() {
+		return id;
 	}
 
-	public void setEmployeeId(long employeeId) {
-		this.employeeId = employeeId;
+	private void setId(long employeeId) {
+		this.id = employeeId;
 	}
 
 	public String getFirstName() {

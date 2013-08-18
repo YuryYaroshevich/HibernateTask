@@ -10,14 +10,14 @@ import com.epam.ht.entity.employee.Employee;
 public class Office implements Serializable {
 	private static final long serialVersionUID = 1130756185750654144L;
 
-	private long officeId;
+	private long id;
 	private Company company;
 	private Address address;
 
 	private Set<Employee> employees;
 	
-	private int numberOfEmployees;
-	
+	private int numberOfEmployees;	
+
 	public Office() {
 	}
 	
@@ -45,12 +45,12 @@ public class Office implements Serializable {
 		this.employees = employees;
 	}
 
-	public long getOfficeId() {
-		return officeId;
+	public long getId() {
+		return id;
 	}
 
-	public void setOfficeId(long officeId) {
-		this.officeId = officeId;
+	private void setId(long officeId) {
+		this.id = officeId;
 	}
 
 	public Company getCompany() {

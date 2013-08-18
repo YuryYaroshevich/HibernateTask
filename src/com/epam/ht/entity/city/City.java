@@ -7,7 +7,7 @@ import com.epam.ht.entity.country.Country;
 public class City implements Serializable {
 	private static final long serialVersionUID = 5958802680632997798L;
 	
-	private long cityId;
+	private long id;
 	private String name;
 	
 	private Country country;
@@ -23,12 +23,12 @@ public class City implements Serializable {
 		this.country = country;
 	}
 	
-	public long getCityId() {
-		return cityId;
+	public long getId() {
+		return id;
 	}
 	
-	public void setCityId(long cityId) {
-		this.cityId = cityId;
+	private void setId(long cityId) {
+		this.id = cityId;
 	}
 	
 	public String getName() {

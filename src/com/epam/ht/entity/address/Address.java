@@ -7,7 +7,7 @@ import com.epam.ht.entity.city.City;
 public class Address implements Serializable {
 	private static final long serialVersionUID = 4743510992982011631L;
 	
-	private long addressId;
+	private long id;
 	private String address;
 	
 	private City city;
@@ -15,12 +15,12 @@ public class Address implements Serializable {
 	public Address() {
 	}
 
-	public long getAddressId() {
-		return addressId;
+	public long getId() {
+		return id;
 	}
 
-	public void setAddressId(long addressId) {
-		this.addressId = addressId;
+	private void setId(long addressId) {
+		this.id = addressId;
 	}
 
 	public String getAddress() {
