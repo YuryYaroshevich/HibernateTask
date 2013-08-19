@@ -37,7 +37,7 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 		Transaction tx = session.beginTransaction();
 		Query query = session.getNamedQuery(EMPLOYEE_LIST);
 		query.setMaxResults(NUMBER_OF_EMPLOYEES);
-		List<Employee> employees = query.list();	
+		List<Employee> employees = query.list(); 
 		tx.commit();
 		return employees;
 	}
