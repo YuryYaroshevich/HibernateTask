@@ -9,7 +9,7 @@ import com.epam.ht.entity.employee.Employee;
 
 public class Office implements Serializable {
 	private static final long serialVersionUID = 1130756185750654144L;
-
+	
 	private long id;
 	private Company company;
 	private Address address;
@@ -61,4 +61,55 @@ public class Office implements Serializable {
 		this.company = company;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 43;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((company == null) ? 0 : company.hashCode());
+		result = prime * result
+				+ ((employees == null) ? 0 : employees.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + numberOfEmployees;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}	
+		if ((obj == null) || (getClass() != obj.getClass())) {
+			return false;
+		}	
+		Office other = (Office) obj;
+		if (address == null) {
+			if (other.address != null) {
+				return false;
+			}	
+		} else if (!address.equals(other.address)) {
+			return false;
+		}	
+		if (company == null) {
+			if (other.company != null) {
+				return false;
+			}	
+		} else if (!company.equals(other.company)) {
+			return false;
+		}	
+		if (employees == null) {
+			if (other.employees != null) {
+				return false;
+			}	
+		} else if (!employees.equals(other.employees)) {
+			return false;
+		}	
+		if (id != other.id) {
+			return false;
+		}	
+		if (numberOfEmployees != other.numberOfEmployees) {
+			return false;
+		}	
+		return true;
+	}
 }

@@ -31,12 +31,12 @@
 						</tr>
 						<jstl:forEach var="office" items="${employee.offices}">
 							<tr>
-								<td>${office.company}</td>
-								<td>${office.address.city}</td>
-								<td>${office.address.city.country}</td>
-								<td>${office.address}</td>
-								<td>${office.numberOfEmployees}</td>
-								<td></td>
+								<td>${office.key.company}</td>
+								<td>${office.key.address.city}</td>
+								<td>${office.key.address.city.country}</td>
+								<td>${office.key.address}</td>
+								<td>${office.key.numberOfEmployees}</td>
+								<td>${office.value}</td>
 							</tr>
 						</jstl:forEach>
 					</table>

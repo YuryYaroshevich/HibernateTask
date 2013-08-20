@@ -17,27 +17,27 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 	static {
 		sessionFactory = SessionFactoryGetter.getSessionFactory();
 	}
-	
+
 	// query name
 	private static final String EMPLOYEE_LIST = "employeeList";
-	
+
 	// number of rows I take from table
 	private static final int NUMBER_OF_EMPLOYEES = 100;
 
 	private EmployeeDAOHibernate() {
 	}
-	
+
 	public static EmployeeDAO getInstance() {
 		return dao;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Employee> getEmployees() {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		Query query = session.getNamedQuery(EMPLOYEE_LIST);
 		query.setMaxResults(NUMBER_OF_EMPLOYEES);
-		List<Employee> employees = query.list(); 
+		List<Employee> employees = query.list();
 		tx.commit();
 		return employees;
 	}
