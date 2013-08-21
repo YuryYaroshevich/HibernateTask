@@ -13,11 +13,6 @@
 				oe.office_id
 				= office_id)</formula>
 		</property>
-		<!-- <set name="employees" table="OFFICE_EMPLOYEE" lazy="true">
-			<key column="OFFICE_ID" />
-			<many-to-many class="com.epam.ht.entity.employee.Employee"
-				column="EMPLOYEE_ID" />
-		</set> -->
 		<many-to-one name="address" class="com.epam.ht.entity.address.Address"
 			column="ADDRESS_ID" />
 		<many-to-one name="company" class="com.epam.ht.entity.company.Company"
