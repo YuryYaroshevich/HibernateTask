@@ -1,10 +1,11 @@
 table,tr,td,th {
 	margin: 0px;
-	padding: 0px;
+	
+	border: 1px solid black;
 }
 
-td, th, caption {
-	border: 1px solid black;
+tr ,td, th, caption {
+	padding: 10px;
 }
 
 td, th {
@@ -16,10 +17,4 @@ td, th {
 	
 }
 
-#offices-title {
-	margin-left: 0px;
-}
 
-.company, .city, .country,
-.address, .employee-number, .position {
-}

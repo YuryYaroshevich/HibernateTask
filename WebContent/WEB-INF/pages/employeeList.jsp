@@ -14,44 +14,50 @@
 	<h2>Employee list</h2>
 	<table>
 		<tr>
-			<th>Name</th>
+			<th rowspan="2">Name</th>
+			<th rowspan="2">Address</th>
+			<th colspan="6">Offices</th>
+		</tr>
+		<tr>
+			<th>Company name</th>
+			<th>City</th>
+			<th>Country</th>
 			<th>Address</th>
-			<th class="company">Company name</th>
-			<th class="city">City</th>
-			<th class="country">Country</th>
-			<th class="address">Address</th>
-			<th class="employee-number">Number of employees for given
-				company office</th>
-			<th class="position">Position</th>
+			<th>Number of employees<br>for
+				given company office
+			</th>
+			<th>Position</th>
 
 		</tr>
 		<jstl:forEach var="employee" items="${employees}">
 			<tr>
-				<td>${employee.firstName} ${employee.lastName}</td>
-				<td rowspan="${fn:length(employee.jobs)}">${employee.address}</td>
+				<jstl:choose>
+					<jstl:when test="${fn:length(employee.jobs) == 1}">
+						<td>${employee.firstName} ${employee.lastName}</td>
+						<td>${employee.address}</td>
+					</jstl:when>
+					<jstl:otherwise>
+						<td rowspan="${fn:length(employee.jobs)}">${employee.firstName}
+							${employee.lastName}</td>
+						<td rowspan="${fn:length(employee.jobs)}">${employee.address}</td>
+					</jstl:otherwise>
+				</jstl:choose>
+				<jstl:forEach var="job" items="${employee.jobs}" varStatus="status">
+					<jstl:if test="${status.index != 0}">
+						</tr><tr>
+					</jstl:if>
+					<td>${job.key.company}</td>
+					<td>${job.key.address.city}</td>
+					<td>${job.key.address.city.country}</td>
+					<td>${job.key.address}</td>
+					<td>${job.key.numberOfEmployees}</td>
+					<td>${job.value}</td>
+					<jstl:if test="${(status.index != 0) && (!status.last)}">
+						</tr>
+					</jstl:if>
+				</jstl:forEach>	
 			</tr>
-
-			<jstl:forEach var="job" items="${employee.jobs}">
-					<td class="company">${job.key.company}</td>
-					<td class="city">${job.key.address.city}</td>
-					<td class="country">${job.key.address.city.country}</td>
-					<td class="address">${job.key.address}</td>
-					<td class="employee-number">${job.key.numberOfEmployees}</td>
-					<td class="position">${job.value}</td>
-			</jstl:forEach>
-
-
 		</jstl:forEach>
-	</table>
-
-	<table border="1" style="width: 80%;">
-		<tr>
-			<th rowspan="2">Table header</th>
-			<td>Table cell 1</td>
-		</tr>
-		<tr>
-			<td>Table cell 2</td>
-		</tr>
 	</table>
 </body>
 </html>
