@@ -5,6 +5,7 @@
 
 <hibernate-mapping package="com.epam.ht.entity.office">
 	<class name="Office" table="Office" lazy="false">
+	    <cache usage="read-only" />
 		<id name="id" column="OFFICE_ID" type="long">
 			<generator class="increment" />
 		</id>

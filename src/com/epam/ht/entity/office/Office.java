@@ -1,11 +1,9 @@
 package com.epam.ht.entity.office;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.company.Company;
-import com.epam.ht.entity.employee.Employee;
 
 public class Office implements Serializable {
 	private static final long serialVersionUID = 1130756185750654144L;
@@ -13,8 +11,6 @@ public class Office implements Serializable {
 	private long id;
 	private Company company;
 	private Address address;
-
-	private Set<Employee> employees;
 	
 	private int numberOfEmployees;	
 
@@ -35,14 +31,6 @@ public class Office implements Serializable {
 
 	public void setNumberOfEmployees(int numberOfEmployees) {
 		this.numberOfEmployees = numberOfEmployees;
-	}
-
-	public Set<Employee> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(Set<Employee> employees) {
-		this.employees = employees;
 	}
 
 	public long getId() {
@@ -67,8 +55,6 @@ public class Office implements Serializable {
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((company == null) ? 0 : company.hashCode());
-		result = prime * result
-				+ ((employees == null) ? 0 : employees.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + numberOfEmployees;
 		return result;
@@ -96,14 +82,7 @@ public class Office implements Serializable {
 			}	
 		} else if (!company.equals(other.company)) {
 			return false;
-		}	
-		if (employees == null) {
-			if (other.employees != null) {
-				return false;
-			}	
-		} else if (!employees.equals(other.employees)) {
-			return false;
-		}	
+		}		
 		if (id != other.id) {
 			return false;
 		}	

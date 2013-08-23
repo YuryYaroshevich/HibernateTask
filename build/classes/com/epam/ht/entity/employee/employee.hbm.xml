@@ -5,6 +5,7 @@
 
 <hibernate-mapping package="com.epam.ht.entity.employee">
 	<class name="Employee" table="Employee" lazy="false">
+	    <cache usage="read-only" />
 		<id name="id" column="EMPLOYEE_ID" type="long">
 			<generator class="increment" />
 		</id>
@@ -14,6 +15,7 @@
 			not-null="true" class="com.epam.ht.entity.address.Address" insert="false"
 			update="false" />
 		<map name="jobs" table="OFFICE_EMPLOYEE" lazy="false">
+		    <cache usage="read-only" />
 			<key column="EMPLOYEE_ID" />
 			<map-key-many-to-many column="OFFICE_ID"
 				class="com.epam.ht.entity.office.Office" />
