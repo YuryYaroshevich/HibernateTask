@@ -5,7 +5,8 @@
 
 <hibernate-mapping package="com.epam.ht.entity.address">
 	<class name="Address" table="Address" lazy="false">
-		<id name="id" column="ADDRESS_ID" type="long">
+	    <cache usage="read-only" />
+ 		<id name="id" column="ADDRESS_ID" type="long">
 			<generator class="increment" />
 		</id>
 		<property name="address" column="ADDRESS" not-null="true" />
