@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ehcache.org/ehcache.xsd">
+	<cache name="com.epam.ht.entity.employee.Employee"
+		eternal="false" timeToLiveSeconds="600"/>
+	
+	
+
+	<cache name="employeeList" eternal="false" timeToLiveSeconds="86400" />
+</ehcache>
