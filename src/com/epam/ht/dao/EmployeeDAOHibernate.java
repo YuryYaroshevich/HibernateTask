@@ -2,6 +2,9 @@ package com.epam.ht.dao;
 
 import java.util.List;
 
+import javax.persistence.FetchType;
+
+import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +22,7 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 	}
 
 	// query name
-	private static final String EMPLOYEE_LIST = "employeeList";
+	private static final String EMPLOYEE_LIST = "query.EmployeeList";
 
 	// number of rows I take from table
 	private static final int NUMBER_OF_EMPLOYEES = 100;
@@ -35,10 +38,16 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 	public List<Employee> getEmployees() {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
+
 		Query query = session.getNamedQuery(EMPLOYEE_LIST)
-				.setMaxResults(NUMBER_OF_EMPLOYEES)
-				.setCacheable(true);
+				.setMaxResults(NUMBER_OF_EMPLOYEES);
 		List<Employee> employees = query.list();
+
+		/*
+		 * List<Employee> employees = session.createCriteria(Employee.class)
+		 * .setFetchMode("jobs", FetchMode.JOIN) .setFetchMode("address",
+		 * FetchMode.JOIN) .setCacheable(true) .list();
+		 */
 		tx.commit();
 		return employees;
 	}
