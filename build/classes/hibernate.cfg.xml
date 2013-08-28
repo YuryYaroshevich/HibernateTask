@@ -5,7 +5,7 @@
 
 <hibernate-configuration>
 	<session-factory>
-		<!-- connection settings -->
+		<!-- connection properties -->
 		<property name="hiberbate.connection.driver_class">
 			oracle.jdbc.driver.OracleDriver
 		</property>
@@ -21,18 +21,40 @@
 		<property name="show_sql">true</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 
-		<!-- c3p0 settings -->
+		<!-- 2-level cache settings -->
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.region.factory_class">
+			org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+		<property name="hibernate.cache.use_query_cache">true</property>	
+			
+		<!-- c3p0 properties -->
 		<property name="hibernate.c3p0.min_size">5</property>
 		<property name="hibernate.c3p0.max_size">20</property>
 		<property name="hibernate.c3p0.timeout">60</property>
 		<property name="hibernate.c3p0.max_statements">50</property>
 		<property name="hibernate.c3p0.idle_test_period">3000</property>
 
+		<!-- mappings -->
 		<mapping resource="com/epam/ht/entity/address/address.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/city/city.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/company/company.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/country/country.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/employee/employee.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/office/office.hbm.xml" />
+
+		<!-- 2-level cache mapping -->
+		<class-cache class="com.epam.ht.entity.employee.Employee"
+			usage="read-only" />
+		<collection-cache collection="com.epam.ht.entity.employee.Employee.jobs"
+			usage="read-only" />
+		<class-cache class="com.epam.ht.entity.office.Office"
+			usage="read-only" />
+		<class-cache class="com.epam.ht.entity.country.Country"
+			usage="read-only" />
+		<class-cache class="com.epam.ht.entity.company.Company"
+			usage="read-only" />
+		<class-cache class="com.epam.ht.entity.city.City" usage="read-only" />
+		<class-cache class="com.epam.ht.entity.address.Address"
+			usage="read-only" />
 	</session-factory>
-</hibernate-configuration>
+</hibernate-configuration> 

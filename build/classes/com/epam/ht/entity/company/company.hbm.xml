@@ -5,7 +5,6 @@
 
 <hibernate-mapping package="com.epam.ht.entity.company">
 	<class name="Company" table="Company" lazy="false">
-	<cache usage="read-only" />
 		<id name="id" column="COMPANY_ID" type="long">
 			<generator class="increment" />
 		</id>
