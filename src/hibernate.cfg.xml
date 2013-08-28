@@ -19,6 +19,7 @@
 			org.hibernate.dialect.OracleDialect
 		</property>
 		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 
 		<!-- 2-level cache settings -->
@@ -43,7 +44,7 @@
 		<mapping resource="com/epam/ht/entity/office/office.hbm.xml" />
 
 		<!-- 2-level cache mapping -->
-		<class-cache class="com.epam.ht.entity.employee.Employee"
+		<!-- <class-cache class="com.epam.ht.entity.employee.Employee"
 			usage="read-only" />
 		<collection-cache collection="com.epam.ht.entity.employee.Employee.jobs"
 			usage="read-only" />
@@ -55,6 +56,6 @@
 			usage="read-only" />
 		<class-cache class="com.epam.ht.entity.city.City" usage="read-only" />
 		<class-cache class="com.epam.ht.entity.address.Address"
-			usage="read-only" />
+			usage="read-only" /> -->
 	</session-factory>
 </hibernate-configuration> 

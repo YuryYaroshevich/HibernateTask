@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="com.epam.ht.entity.employee">
-	<class name="Employee" table="Employee" lazy="false">   
+	<class name="Employee" table="Employee" lazy="false">
 		<id name="id" column="EMPLOYEE_ID" type="long">
 			<generator class="increment" />
 		</id>
@@ -19,11 +19,15 @@
 				class="com.epam.ht.entity.office.Office" />
 			<composite-element class="Position">
 				<property name="position" column="POSITION" />
-			</composite-element>  
+			</composite-element>
 		</map>
 	</class>
 
-	<query name="employeeList">
-		<![CDATA[from Employee]]>
+	<query name="query.EmployeeList">
+		<![CDATA[from Employee emp left join fetch emp.jobs
+		                           left join fetch emp.address
+		                                                a left join fetch a.city
+		                                                c left join fetch c.country]]>
 	</query>
+	<!--  -->
 </hibernate-mapping>
