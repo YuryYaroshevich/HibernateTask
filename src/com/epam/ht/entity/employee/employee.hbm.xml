@@ -13,7 +13,10 @@
 		<many-to-one name="address" column="EMPLOYEE_ID" unique="true"
 			not-null="true" class="com.epam.ht.entity.address.Address" insert="false"
 			update="false" />
-		<map name="jobs" table="OFFICE_EMPLOYEE" lazy="false">
+		<!-- <set name="jobs" table="office_employee" lazy="false" outer-join="true"> 
+			<key column="employee_id" /> <many-to-many column="office_id" class="com.epam.ht.entity.office.Office" 
+			outer-join="true" /> </set> -->
+		<map name="jobs" table="OFFICE_EMPLOYEE">
 			<key column="EMPLOYEE_ID" />
 			<map-key-many-to-many column="OFFICE_ID"
 				class="com.epam.ht.entity.office.Office" />
@@ -25,9 +28,16 @@
 
 	<query name="query.EmployeeList">
 		<![CDATA[from Employee emp left join fetch emp.jobs
-		                           left join fetch emp.address
-		                                                a left join fetch a.city
-		                                                c left join fetch c.country]]>
+		                           left join fetch emp.address]]>
 	</query>
-	<!--  -->
+	<sql-query name="query.CorrespondOffices">
+	    <![CDATA[select {off.*} from office off
+	           left outer join company comp on comp.company_id = off.company_id
+	           left outer join address addr on addr.address_id = off.address_id
+	           left outer join city c on addr.city_id = c.city_id
+	           left outer join country coun on c.country_id = coun.country_id 
+	           where off.office_id in 
+	           (select oe.office_id from office_employee oe where oe.employee_id in(:employeeIds))]]>
+	    <return alias="off" class="com.epam.ht.entity.office.Office" />       
+	</sql-query>
 </hibernate-mapping>

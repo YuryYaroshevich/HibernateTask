@@ -15,6 +15,7 @@ public class Employee implements Serializable {
 
 	private Address address;
 	private Map<Office, Position> jobs;
+	//private Set<Office> jobs;
 
 	public Employee() {
 	}
@@ -23,8 +24,8 @@ public class Employee implements Serializable {
 		return jobs;
 	}
 
-	public void setJobs(Map<Office, Position> offices) {
-		this.jobs = offices;
+	public void setJobs(Map<Office, Position> jobs) {
+		this.jobs = jobs;
 	}
 
 	public Address getAddress() {

@@ -51,7 +51,7 @@
 					<td>${job.key.address.city.country}</td>
 					<td>${job.key.address}</td>
 					<td>${job.key.numberOfEmployees}</td>
-					<td>${job.value}</td>
+					<td>${job.value}</td> 
 					<jstl:if test="${(status.index != 0) && (!status.last)}">
 						</tr>
 					</jstl:if>

@@ -1,16 +1,15 @@
 package com.epam.ht.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.FetchType;
-
-import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.epam.ht.entity.employee.Employee;
+import com.epam.ht.entity.office.Office;
 import com.epam.ht.util.SessionFactoryGetter;
 
 final class EmployeeDAOHibernate implements EmployeeDAO {
@@ -39,15 +38,24 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 
-		Query query = session.getNamedQuery(EMPLOYEE_LIST)
-				.setMaxResults(NUMBER_OF_EMPLOYEES);
-		List<Employee> employees = query.list();
+		List<BigDecimal> employeeIds = session
+				.createSQLQuery("select employee_id from employee")
+				.setMaxResults(NUMBER_OF_EMPLOYEES).list();
 
-		/*
-		 * List<Employee> employees = session.createCriteria(Employee.class)
-		 * .setFetchMode("jobs", FetchMode.JOIN) .setFetchMode("address",
-		 * FetchMode.JOIN) .setCacheable(true) .list();
-		 */
+		List<Office> offices = session
+				.getNamedQuery("query.CorrespondOffices")
+				.setParameterList("employeeIds", employeeIds)
+				.list();
+		/*offices = session.createQuery(
+				"from Office o left join fetch o.company"
+						+ " left join fetch o.address addr"
+						+ " left join fetch addr.city c"
+						+ " left join fetch c.country").list();*/
+
+		Query query = session.getNamedQuery(EMPLOYEE_LIST).setMaxResults(
+				NUMBER_OF_EMPLOYEES);
+
+		List<Employee> employees = query.list();
 		tx.commit();
 		return employees;
 	}
