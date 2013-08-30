@@ -13,11 +13,11 @@
 		<many-to-one name="address" column="EMPLOYEE_ID" unique="true"
 			not-null="true" class="com.epam.ht.entity.address.Address" insert="false"
 			update="false" />
-		<map name="jobs" table="OFFICE_EMPLOYEE" lazy="false">
+		<map name="jobs" table="OFFICE_EMPLOYEE" outer-join="true">
 			<key column="EMPLOYEE_ID" />
-			<map-key-many-to-many column="OFFICE_ID"
-				class="com.epam.ht.entity.office.Office" />
-			<composite-element class="Position">
+			<map-key-many-to-many column="OFFICE_ID" 
+				class="com.epam.ht.entity.office.Office"  />
+			<composite-element class="Position" >
 				<property name="position" column="POSITION" />
 			</composite-element>
 		</map>
@@ -29,5 +29,5 @@
 		                                                a left join fetch a.city
 		                                                c left join fetch c.country]]>
 	</query>
-	<!--  -->
+	<!-- -->
 </hibernate-mapping>
