@@ -1,16 +1,12 @@
 package com.epam.ht.dao;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.epam.ht.entity.employee.Employee;
-import com.epam.ht.entity.office.Office;
 import com.epam.ht.util.SessionFactoryGetter;
 
 final class EmployeeDAOHibernate implements EmployeeDAO {
@@ -23,9 +19,15 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 
 	// query name
 	private static final String EMPLOYEE_LIST = "query.EmployeeList";
+	private static final String CORRESPOND_OFFICES = "query.CorrespondOffices";
+	private static final String CORRESPOND_OFFICES_IDS = "query.CorrespondOfficeIds";
+
+	// parameter names for queries
+	private static final String EMPLOYEES_NUMB_PARAM = "employees_number";
+	private static final String OFFICE_IDS_PARAM = "office_ids";
 
 	// number of rows I take from table
-	private static final int NUMBER_OF_EMPLOYEES = 100;
+	private static final int EMPLOYEES_NUMBER = 100;
 
 	private EmployeeDAOHibernate() {
 	}
@@ -38,45 +40,16 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 	public List<Employee> getEmployees() {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-
-<<<<<<< HEAD
-		Query query = session.getNamedQuery(EMPLOYEE_LIST).setMaxResults(
-				NUMBER_OF_EMPLOYEES);
-		List<Employee> employees = query.list();
-
-=======
-		/*
-		 * List<BigDecimal> employeeIds = session
-		 * .createSQLQuery("select employee_id from employee")
-		 * .setMaxResults(NUMBER_OF_EMPLOYEES).list();
-		 * 
-		 * List<Office> offices = session
-		 * .getNamedQuery("query.CorrespondOffices")
-		 * .setParameterList("employeeIds", employeeIds) .list();
-		 */
-
-		Query employeesQ = session.getNamedQuery(EMPLOYEE_LIST).setMaxResults(
-				NUMBER_OF_EMPLOYEES);
-		/*
-		 * List<Employee> employees = session.createCriteria(Employee.class)
-		 * .setFetchMode("address", FetchMode.JOIN) .setFetchMode("jobs",
-		 * FetchMode.JOIN) .list();
-		 */
-		List<Employee> employees = employeesQ.list();
-		/*Set<Object> officeIds = new HashSet<Object>();
-
-		for (Employee empl : employees) {
-			officeIds.addAll(empl.getJobs().keySet());
-		}
-		Query correspondOfficesQ = session.getNamedQuery(
-				"query.CorrespondOffices").setParameterList("office_ids",
-				officeIds.toArray());
-		List<Office> offices = correspondOfficesQ.list();*/
-		
-		
-		
-		
->>>>>>> f9690536339571cfa3bd137e85987ed00b38633c
+		// get id of offices where first 100 employees work
+		List<Long> officeIds = session
+				.getNamedQuery(CORRESPOND_OFFICES_IDS)
+				.setParameter(EMPLOYEES_NUMB_PARAM, EMPLOYEES_NUMBER).list();
+		// load in session correspond offices
+		session.getNamedQuery(CORRESPOND_OFFICES)
+				.setParameterList(OFFICE_IDS_PARAM, officeIds).list();
+		// get employees
+		List<Employee> employees = session.getNamedQuery(EMPLOYEE_LIST)
+				.setMaxResults(EMPLOYEES_NUMBER).list();
 		tx.commit();
 		return employees;
 	}

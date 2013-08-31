@@ -1,9 +1,10 @@
 package com.epam.ht.entity.employee;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Map;
 
 import com.epam.ht.entity.address.Address;
+import com.epam.ht.entity.office.Office;
 
 public class Employee implements Serializable {
 	private static final long serialVersionUID = -8246951586123338991L;
@@ -13,21 +14,17 @@ public class Employee implements Serializable {
 	private String lastName;
 
 	private Address address;
-	//private Map<Office, Position> jobs;
-	private Set<Position> jobs;
+	private Map<Office, Position> jobs;
+	//private Set<Office> jobs;
 
 	public Employee() {
 	}
 
-	public Set<Position> getJobs() {
+	public Map<Office, Position> getJobs() {
 		return jobs;
 	}
 
-<<<<<<< HEAD
 	public void setJobs(Map<Office, Position> jobs) {
-=======
-	public void setJobs(Set<Position> jobs) {
->>>>>>> f9690536339571cfa3bd137e85987ed00b38633c
 		this.jobs = jobs;
 	}
 

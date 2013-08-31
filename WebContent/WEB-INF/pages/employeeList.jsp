@@ -46,13 +46,12 @@
 					<jstl:if test="${status.index != 0}">
 						</tr><tr>
 					</jstl:if>
-					<td>${job.office.company}</td>
-					<td>${job.office.address.city}</td>
-					<td>${job.office.address.city.country}</td>
-					<td>${job.office.address}</td>
-					<td>${job.office.numberOfEmployees}</td>
-					<td>${job.position}</td>
-					<td></td> 
+					<td>${job.key.company}</td>
+					<td>${job.key.address.city}</td>
+					<td>${job.key.address.city.country}</td>
+					<td>${job.key.address}</td>
+					<td>${job.key.numberOfEmployees}</td>
+					<td>${job.value}</td> 
 					<jstl:if test="${(status.index != 0) && (!status.last)}">
 						</tr>
 					</jstl:if>
