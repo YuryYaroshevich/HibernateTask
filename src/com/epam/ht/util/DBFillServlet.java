@@ -49,10 +49,9 @@ public class DBFillServlet extends HttpServlet {
 			// address_id)
 			// values(yra.employee_id_seq.nextval, ?, ?,
 			// yra.address_id_seq.currval)
-			PreparedStatement putEmployee = con
-					.prepareStatement("insert into"
-							+ " yra.employee(first_name, last_name, employee_id) "
-							+ "values(?, ?, yra.address_id_seq.currval)");
+			PreparedStatement putEmployee = con.prepareStatement("insert into"
+					+ " yra.employee(first_name, last_name, employee_id) "
+					+ "values(?, ?, yra.address_id_seq.currval)");
 
 			// insert into yra.company(company_id, company_name)
 			// values(company_id_seq.nextval,?)
@@ -71,9 +70,9 @@ public class DBFillServlet extends HttpServlet {
 			// yra.employee_id_seq.currval, ?)
 			PreparedStatement putOfficeEmployee = con
 					.prepareStatement("insert "
-							+ "into yra.office_employee(office_id, employee_id,position) "
-							+ "values(yra.office_id_seq.currval,yra.address_id_seq.currval, ?)");
-			for (int i = 0; i < 15000; i++) {
+							+ "into yra.office_employee(employee_id,position, office_id) "
+							+ "values(yra.address_id_seq.currval, ?, yra.office_id_seq.currval)");
+			for (int i = 1; i <= 20000; i++) {
 				putCountry.setString(1, "USA");
 				putCountry.executeUpdate();
 
@@ -82,15 +81,15 @@ public class DBFillServlet extends HttpServlet {
 
 				putAddress.setString(1, "Cave");
 				putAddress.executeUpdate();
-				
+
 				if ((i % 2) == 0) {
 					putEmployee.setString(1, "Dark");
 					putEmployee.setString(2, "Knight");
 					putEmployee.executeUpdate();
-					if (i > 2) {
-						putOfficeEmployee.setString(1, "superhero");
-						putOfficeEmployee.executeUpdate();
-					}
+
+					putOfficeEmployee.setString(1, "superhero");
+					putOfficeEmployee.executeUpdate();
+
 				} else {
 					putCompany.setString(1, "CleanCity");
 					putCompany.executeUpdate();
@@ -102,6 +101,7 @@ public class DBFillServlet extends HttpServlet {
 			putCity.close();
 			putAddress.close();
 			putEmployee.close();
+			putOffice.close();
 			putOfficeEmployee.close();
 			con.close();
 		} catch (ClassNotFoundException e) {

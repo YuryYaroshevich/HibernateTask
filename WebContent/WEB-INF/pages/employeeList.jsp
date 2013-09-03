@@ -33,7 +33,7 @@
 			<tr>
 				<jstl:choose>
 					<jstl:when test="${fn:length(employee.jobs) == 1}">
-						<td>${employee.firstName} ${employee.lastName}</td>
+						<td>${employee.id} ${employee.firstName} ${employee.lastName}</td>
 						<td>${employee.address}</td>
 					</jstl:when>
 					<jstl:otherwise>
