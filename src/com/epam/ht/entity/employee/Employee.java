@@ -40,7 +40,7 @@ public class Employee implements Serializable {
 		return id;
 	}
 
-	private void setId(long employeeId) {
+	public void setId(long employeeId) {
 		this.id = employeeId;
 	}
 

@@ -1,6 +1,5 @@
-package com.epam.ht.dao;
+package com.epam.ht.db.dao;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,7 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.epam.ht.entity.employee.Employee;
-import com.epam.ht.entity.office.Office;
 import com.epam.ht.util.SessionFactoryGetter;
 
 final class EmployeeDAOHibernate implements EmployeeDAO {
@@ -43,6 +41,7 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 	public List<Employee> getEmployees() {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
+		
 		// get ids of first 100 employees
 		List<Long> employeeIds = session.getNamedQuery(CORRESPOND_EMPLOYEE_IDS)
 				.setMaxResults(EMPLOYEES_NUMBER).list();

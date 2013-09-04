@@ -1,8 +1,8 @@
-package com.epam.ht.dao;
+package com.epam.ht.db.dao;
 
 public final class EmployeeDAOFactory {
 	public static enum DAOType {
-		HIBERNATE
+		HIBERNATE, JDBC
 	}
 	
 	private EmployeeDAOFactory() {
@@ -10,6 +10,8 @@ public final class EmployeeDAOFactory {
 	
 	public static EmployeeDAO getEmployeeDAO(DAOType daoType) {
 		switch(daoType) {
+		case JDBC:
+			return EmployeeDAOJDBC.getInstance();
 		case HIBERNATE:
 			return EmployeeDAOHibernate.getInstance();
 		default:

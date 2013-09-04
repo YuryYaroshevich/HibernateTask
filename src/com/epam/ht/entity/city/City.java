@@ -27,7 +27,7 @@ public class City implements Serializable {
 		return id;
 	}
 
-	private void setId(long cityId) {
+	public void setId(long cityId) {
 		this.id = cityId;
 	}
 

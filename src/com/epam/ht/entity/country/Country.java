@@ -23,7 +23,7 @@ public class Country implements Serializable {
 		return id;
 	}
 
-	private void setId(long countryId) {
+	public void setId(long countryId) {
 		this.id = countryId;
 	}
 	
