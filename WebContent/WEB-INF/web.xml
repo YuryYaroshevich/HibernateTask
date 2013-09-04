@@ -7,6 +7,8 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	<!-- com.epam.ht.util.DBFillServlet -->
+	<!-- com.epam.ht.controller.EmployeeListServlet -->
 	<servlet>
 		<servlet-name>controller</servlet-name>
 		<servlet-class>com.epam.ht.controller.EmployeeListServlet</servlet-class>

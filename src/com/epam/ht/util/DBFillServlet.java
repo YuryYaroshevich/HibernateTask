@@ -49,10 +49,9 @@ public class DBFillServlet extends HttpServlet {
 			// address_id)
 			// values(yra.employee_id_seq.nextval, ?, ?,
 			// yra.address_id_seq.currval)
-			PreparedStatement putEmployee = con
-					.prepareStatement("insert into"
-							+ " yra.employee(first_name, last_name, employee_id) "
-							+ "values(?, ?, yra.address_id_seq.currval)");
+			PreparedStatement putEmployee = con.prepareStatement("insert into"
+					+ " yra.employee(first_name, last_name, employee_id) "
+					+ "values(?, ?, yra.address_id_seq.currval)");
 
 			// insert into yra.company(company_id, company_name)
 			// values(company_id_seq.nextval,?)
@@ -73,26 +72,26 @@ public class DBFillServlet extends HttpServlet {
 					.prepareStatement("insert "
 							+ "into yra.office_employee(office_id, employee_id,position) "
 							+ "values(yra.office_id_seq.currval,yra.address_id_seq.currval, ?)");
-			for (int i = 0; i < 15000; i++) {
-				putCountry.setString(1, "USA");
+			for (int i = 1; i <= 50; i++) {
+				putCountry.setString(1, "Belarus");
 				putCountry.executeUpdate();
 
-				putCity.setString(1, "Gotham");
+				putCity.setString(1, "Minsk");
 				putCity.executeUpdate();
 
-				putAddress.setString(1, "Cave");
+				putAddress.setString(1, "Suharevo");
 				putAddress.executeUpdate();
-				
+
 				if ((i % 2) == 0) {
-					putEmployee.setString(1, "Dark");
-					putEmployee.setString(2, "Knight");
+					putEmployee.setString(1, "Yury");
+					putEmployee.setString(2, "Yaroshevich");
 					putEmployee.executeUpdate();
-					if (i > 2) {
-						putOfficeEmployee.setString(1, "superhero");
-						putOfficeEmployee.executeUpdate();
-					}
+
+					putOfficeEmployee.setString(1, "programmer");
+					putOfficeEmployee.executeUpdate();
+
 				} else {
-					putCompany.setString(1, "CleanCity");
+					putCompany.setString(1, "epam");
 					putCompany.executeUpdate();
 					putOffice.executeUpdate();
 				}

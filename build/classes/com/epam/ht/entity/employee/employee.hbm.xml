@@ -37,11 +37,11 @@
 	                     where o.id in (:office_ids)]]>
 	</query>
 	<sql-query name="query.CorrespondOfficeIds">
-	    <return-scalar column="office_id" type="long" />
-	    <![CDATA[select distinct off.office_id from office off inner join office_employee oe
-	                           on off.office_id = oe.office_id
+	   <return-scalar column="office_id" type="long" /> 
+	    <![CDATA[select distinct offi.office_id from yra.office offi inner join yra.office_employee oe
+	                           on offi.office_id = oe.office_id
 	                           where oe.employee_id in
-	                                 (select employee_id from employee
+	                                 (select employee_id from yra.employee
 	                                                 where rownum <= :employees_number)]]>
 	</sql-query>
 </hibernate-mapping>
