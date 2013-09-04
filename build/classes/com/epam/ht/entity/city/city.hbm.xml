@@ -5,12 +5,11 @@
 
 <hibernate-mapping package="com.epam.ht.entity.city">
 	<class name="City" table="City" lazy="false">
-	    <cache usage="read-only" />
 		<id name="id" column="CITY_ID" type="long">
 			<generator class="increment" />
 		</id>
 		<property name="name" column="CITY_NAME" not-null="true" />
 		<many-to-one name="country" class="com.epam.ht.entity.country.Country"
-			column="COUNTRY_ID" outer-join="true" />
+			column="COUNTRY_ID" />
 	</class>
 </hibernate-mapping>

@@ -23,11 +23,17 @@
 		</map>
 	</class>
 
+
+	<sql-query name="query.CorrespondEmployeeIds">
+	    <return-scalar column="employee_id" type="long" />
+	    <![CDATA[select employee_id from yra.employee]]>
+	</sql-query>
 	<query name="query.EmployeeList">
 		<![CDATA[from Employee emp left join fetch emp.jobs          
 		                           left join fetch emp.address addr
 		                                 left join fetch addr.city c
-		                                 left join fetch c.country]]>
+		                                 left join fetch c.country
+		                       where emp.id in (:employee_ids)]]>
 	</query>
 	<query name="query.CorrespondOffices">
 	    <![CDATA[from Office o left join fetch o.company
@@ -37,11 +43,8 @@
 	                     where o.id in (:office_ids)]]>
 	</query>
 	<sql-query name="query.CorrespondOfficeIds">
-	   <return-scalar column="office_id" type="long" /> 
-	    <![CDATA[select distinct offi.office_id from yra.office offi inner join yra.office_employee oe
-	                           on offi.office_id = oe.office_id
-	                           where oe.employee_id in
-	                                 (select employee_id from yra.employee
-	                                                 where rownum <= :employees_number)]]>
+	    <return-scalar column="office_id" type="long" />
+	    <![CDATA[select distinct office_id from yra.office_employee 
+	                           where employee_id in (:employee_ids)]]>
 	</sql-query>
 </hibernate-mapping>

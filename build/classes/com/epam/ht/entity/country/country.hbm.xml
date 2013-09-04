@@ -5,7 +5,6 @@
 
 <hibernate-mapping package="com.epam.ht.entity.country">
 	<class name="Country" table="Country" lazy="false">
-	     <cache usage="read-only" />
 		<id name="id" column="COUNTRY_ID" type="long">
 			<generator class="increment" />
 		</id>

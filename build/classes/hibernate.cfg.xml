@@ -20,13 +20,7 @@
 		</property>
 		<property name="show_sql">true</property>
 		<property name="hibernate.current_session_context_class">thread</property>
-
-		<!-- 2-level cache settings -->
-		<property name="hibernate.cache.use_second_level_cache">true</property>
-		<property name="hibernate.cache.region.factory_class">
-			org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-		<property name="hibernate.cache.use_query_cache">true</property>	
-			
+		
 		<!-- c3p0 properties -->
 		<property name="hibernate.c3p0.min_size">5</property>
 		<property name="hibernate.c3p0.max_size">20</property>
@@ -41,20 +35,5 @@
 		<mapping resource="com/epam/ht/entity/country/country.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/employee/employee.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/office/office.hbm.xml" />
-
-		<!-- 2-level cache mapping -->
-		<!-- <class-cache class="com.epam.ht.entity.employee.Employee"
-			usage="read-only" />
-		<collection-cache collection="com.epam.ht.entity.employee.Employee.jobs"
-			usage="read-only" />
-		<class-cache class="com.epam.ht.entity.office.Office"
-			usage="read-only" />
-		<class-cache class="com.epam.ht.entity.country.Country"
-			usage="read-only" />
-		<class-cache class="com.epam.ht.entity.company.Company"
-			usage="read-only" />
-		<class-cache class="com.epam.ht.entity.city.City" usage="read-only" />
-		<class-cache class="com.epam.ht.entity.address.Address"
-			usage="read-only" /> -->
 	</session-factory>
 </hibernate-configuration> 
