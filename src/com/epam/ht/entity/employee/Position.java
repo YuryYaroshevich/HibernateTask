@@ -2,22 +2,17 @@ package com.epam.ht.entity.employee;
 
 import java.io.Serializable;
 
-import com.epam.ht.entity.office.Office;
-
 // Job position
 public class Position implements Serializable {
 	private static final long serialVersionUID = -2082971136281218506L;
 	
 	private String position;
-	
-	private Office office;
-
-	public Office getOffice() {
-		return office;
+		
+	public Position() {
 	}
-
-	public void setOffice(Office office) {
-		this.office = office;
+	
+	public Position(String position) {
+		this.position = position;
 	}
 
 	public String getPosition() {

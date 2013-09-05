@@ -19,6 +19,10 @@ public class Employee implements Serializable {
 
 	public Employee() {
 	}
+	
+	public Employee(long id) {
+		setId(id);
+	}
 
 	public Map<Office, Position> getJobs() {
 		return jobs;
