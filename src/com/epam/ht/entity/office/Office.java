@@ -37,7 +37,7 @@ public class Office implements Serializable {
 		return id;
 	}
 
-	private void setId(long officeId) {
+	public void setId(long officeId) {
 		this.id = officeId;
 	}
 

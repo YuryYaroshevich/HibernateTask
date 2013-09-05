@@ -5,4 +5,6 @@ public final class HTConstant {
 	}
 
 	public static final String HIBERNATE_CONFIG_PATH = "hibernate.config";
+	
+	
 }

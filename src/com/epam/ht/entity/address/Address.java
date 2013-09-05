@@ -19,7 +19,7 @@ public class Address implements Serializable {
 		return id;
 	}
 
-	private void setId(long addressId) {
+	public void setId(long addressId) {
 		this.id = addressId;
 	}
 

@@ -1,4 +1,4 @@
-package com.epam.ht.dao;
+package com.epam.ht.db.dao;
 
 import java.util.List;
 

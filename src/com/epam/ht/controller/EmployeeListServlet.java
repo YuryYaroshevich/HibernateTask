@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.epam.ht.dao.EmployeeDAO;
-import com.epam.ht.dao.EmployeeDAOFactory;
+import com.epam.ht.db.dao.EmployeeDAO;
+import com.epam.ht.db.dao.EmployeeDAOFactory;
 import com.epam.ht.entity.employee.Employee;
 
-import static com.epam.ht.dao.EmployeeDAOFactory.DAOType.*;
+import static com.epam.ht.db.dao.EmployeeDAOFactory.DAOType.*;
 
 public class EmployeeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1529606092637198325L;
@@ -36,12 +36,19 @@ public class EmployeeListServlet extends HttpServlet {
 
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		EmployeeDAO employeeDAO = EmployeeDAOFactory.getEmployeeDAO(HIBERNATE);
-		List<Employee> employees = employeeDAO.getEmployees();
-		req.getSession(true).setAttribute(EMPLOYEES, employees);
-		String dispatchPath = getServletContext().getInitParameter(
-				DISPATCH_PATH);
-		RequestDispatcher dispatcher = req.getRequestDispatcher(dispatchPath);
-		dispatcher.forward(req, resp);
+		try {
+			EmployeeDAO employeeDAO = EmployeeDAOFactory
+					.getEmployeeDAO(JDBC);
+			List<Employee> employees = employeeDAO.getEmployees();
+			req.getSession(true).setAttribute(EMPLOYEES, employees);
+			String dispatchPath = getServletContext().getInitParameter(
+					DISPATCH_PATH);
+			RequestDispatcher dispatcher = req
+					.getRequestDispatcher(dispatchPath);
+			dispatcher.forward(req, resp);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServletException(e);
+		}
 	}
 }

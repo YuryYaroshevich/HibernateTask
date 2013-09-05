@@ -15,7 +15,7 @@ public class Company implements Serializable {
 		return id;
 	}
 	
-	private void setId(long companyId) {
+	public void setId(long companyId) {
 		this.id = companyId;
 	}
 	
