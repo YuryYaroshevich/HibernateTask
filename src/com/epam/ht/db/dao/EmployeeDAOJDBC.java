@@ -3,7 +3,6 @@ package com.epam.ht.db.dao;
 import static com.epam.ht.resource.PropertyGetter.getProperty;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,13 +23,25 @@ import com.epam.ht.entity.office.Office;
 final class EmployeeDAOJDBC implements EmployeeDAO {
 	private static final EmployeeDAO dao = new EmployeeDAOJDBC();
 
-	private static final int EMPLOYEES_NUMBER = 100;
-
 	// SQL query keys
-	private static final String EMPLOYEE_IDS = "query.employee.ids";
 	private static final String EMPLOYEE_LIST = "query.employee.list";
-	private static final String OFFICE_LIST = "query.office.list";
-	private static final String EMPLOYEES = "query.employees";
+
+	// Column names
+	private static final String EMPLOYEE_ID_COL = "employee_id";
+	private static final String POSITION_COL = "position";
+	private static final String FIRST_NAME_COL = "first_name";
+	private static final String LAST_NAME_COL = "last_name";
+	private static final String EMPLOYEE_ADDRESS_COL = "employee_address";
+	private static final String OFFICE_ID_COL = "office_id";
+	private static final String NUMBER_OF_EMPLOYEES_COL = "number_of_employees";
+	private static final String COMPANY_ID_COL = "company_id";
+	private static final String COMPANY_NAME_COL = "company_name";
+	private static final String ADDRESS_ID_COL = "address_id";
+	private static final String OFFICE_ADDRESS_COL = "office_address";
+	private static final String CITY_ID_COL = "city_id";
+	private static final String CITY_NAME_COL = "city_name";
+	private static final String COUNTRY_ID_COL = "country_id";
+	private static final String COUNTRY_NAME_COL = "country_name";
 
 	public static EmployeeDAO getInstance() {
 		return dao;
@@ -42,35 +53,10 @@ final class EmployeeDAOJDBC implements EmployeeDAO {
 		ConnectionPool pool = ConnectionPool.getInstance();
 		try {
 			con = pool.getConnection();
-			// List<Long> employeeIds = getEmployeeIds(con);
 			List<Employee> employees = fetchCorrespondEmployees(con);
-			/*
-			 * List<Office> offices = fetchCorrespondOffices(con, employeeIds);
-			 * wireOfficesWithEmployees(employees, offices); return new
-			 * ArrayList<Employee>(employees.values());
-			 */
-			return null;
+			return employees;
 		} finally {
 			pool.makeConnectionFree(con);
-		}
-	}
-
-	private static List<Long> getEmployeeIds(Connection con)
-			throws SQLException {
-		PreparedStatement statem = null;
-		ResultSet rsltSet = null;
-		try {
-			statem = con.prepareStatement(getProperty(EMPLOYEE_IDS));
-			statem.setLong(1, EMPLOYEES_NUMBER);
-			rsltSet = statem.executeQuery();
-			List<Long> employeeIds = new ArrayList<Long>();
-			while (rsltSet.next()) {
-				employeeIds.add(rsltSet.getLong(1));
-			}
-			return employeeIds;
-		} finally {
-			closeResultSet(rsltSet);
-			closeStatement(statem);
 		}
 	}
 
@@ -80,7 +66,8 @@ final class EmployeeDAOJDBC implements EmployeeDAO {
 		ResultSet rsltSet = null;
 		try {
 			statem = con.createStatement();
-			rsltSet = statem.executeQuery(getProperty(EMPLOYEES));
+			rsltSet = statem.executeQuery(getProperty(EMPLOYEE_LIST));
+			// processing of resultSet
 			List<Employee> employees = new ArrayList<Employee>();
 			long currentEmployeeId;
 			long previousEmployeeId = -1;
@@ -88,28 +75,28 @@ final class EmployeeDAOJDBC implements EmployeeDAO {
 			Position position = null;
 			Office office = null;
 			Map<Office, Position> jobs = null;
+			// resultSet ordered by employee id
 			while (rsltSet.next()) {
-				currentEmployeeId = rsltSet.getLong("employeeId");
-				
+				currentEmployeeId = rsltSet.getLong(EMPLOYEE_ID_COL);
+				// if not equal then group of rows of another employee started
 				if (currentEmployeeId != previousEmployeeId) {
-					// create employee and fetch his first job
+					// adding of previous employee to list
 					if (empl != null) {
 						empl.setJobs(jobs);
 						employees.add(empl);
 					}
+					// fetch new employee and fetch his first job
 					empl = buildEmployee(rsltSet, currentEmployeeId);
-					position = new Position(rsltSet.getString("position"));
+					position = new Position(rsltSet.getString(POSITION_COL));
 					office = buildOffice(rsltSet);
 					jobs = new HashMap<Office, Position>();
 					jobs.put(office, position);
-
 				} else {
-					// add offices to existing employee
-					position = new Position(rsltSet.getString("position"));
+					// add office to existing employee
+					position = new Position(rsltSet.getString(POSITION_COL));
 					office = buildOffice(rsltSet);
+					jobs.put(office, position);
 				}
-				
-				
 			}
 			return employees;
 		} finally {
@@ -118,107 +105,47 @@ final class EmployeeDAOJDBC implements EmployeeDAO {
 		}
 	}
 
-	/*
-	 * private static Map<Long, Employee> fetchCorrespondEmployees(Connection
-	 * con, List<Long> employeeIds) throws SQLException { Statement statem =
-	 * null; ResultSet rsltSet = null; try { Map<Long, Employee> employees = new
-	 * HashMap<Long, Employee>(); statem = con.createStatement(); rsltSet =
-	 * statem.executeQuery(buildQueryWithIdList(employeeIds,
-	 * getProperty(EMPLOYEE_LIST))); Employee empl = null; while
-	 * (rsltSet.next()) { empl = buildEmployee(rsltSet);
-	 * employees.put(empl.getId(), empl); } return employees; } finally {
-	 * closeResultSet(rsltSet); closeStatement(statem); } }
-	 */
-
-	private static String buildQueryWithIdList(List<Long> ids, String queryStart) {
-		StringBuilder query = new StringBuilder(queryStart);
-		for (int i = 0; i < ids.size(); i++) {
-			query.append(ids.get(i));
-			if (i + 1 == ids.size()) {
-				query.append(")");
-			} else {
-				query.append(",");
-			}
-		}
-		return query.toString();
-	}
-
 	private static Employee buildEmployee(ResultSet rs, long employeeId)
 			throws SQLException {
 		// build employee
 		Employee empl = new Employee(employeeId);
-		empl.setFirstName(rs.getString("first_name"));
-		empl.setLastName(rs.getString("last_name"));
+		empl.setFirstName(rs.getString(FIRST_NAME_COL));
+		empl.setLastName(rs.getString(LAST_NAME_COL));
 		// build his address
 		Address addr = new Address();
 		addr.setId(empl.getId());
-		addr.setAddress(rs.getString("employee_address"));
+		addr.setAddress(rs.getString(EMPLOYEE_ADDRESS_COL));
 		empl.setAddress(addr);
 		return empl;
-	}
-
-	/*
-	 * private static Employee buildEmployee(ResultSet rs) throws SQLException {
-	 * // build employee Employee empl = new Employee();
-	 * empl.setId(rs.getLong("employee_id"));
-	 * empl.setFirstName(rs.getString("first_name"));
-	 * empl.setLastName(rs.getString("last_name")); // build his address Address
-	 * addr = new Address(); addr.setId(empl.getId());
-	 * addr.setAddress(rs.getString("address")); empl.setAddress(addr); return
-	 * empl; }
-	 */
-
-	private static List<Office> fetchCorrespondOffices(Connection con,
-			List<Long> employeeIds) throws SQLException {
-		Statement statem = null;
-		ResultSet rsltSet = null;
-		try {
-			List<Office> offices = new ArrayList<Office>();
-			statem = con.createStatement();
-			rsltSet = statem.executeQuery(buildQueryWithIdList(employeeIds,
-					getProperty(OFFICE_LIST)));
-			while (rsltSet.next()) {
-				offices.add(buildOffice(rsltSet));
-			}
-			return offices;
-		} finally {
-			closeResultSet(rsltSet);
-			closeStatement(statem);
-		}
 	}
 
 	private static Office buildOffice(ResultSet rs) throws SQLException {
 		// build office
 		Office office = new Office();
-		office.setId(rs.getLong("office_id"));
-		office.setNumberOfEmployees(rs.getInt("number_of_employees"));
+		office.setId(rs.getLong(OFFICE_ID_COL));
+		office.setNumberOfEmployees(rs.getInt(NUMBER_OF_EMPLOYEES_COL));
 		// build company
 		Company company = new Company();
-		company.setId(rs.getLong("company_id"));
-		company.setName(rs.getString("company_name"));
+		company.setId(rs.getLong(COMPANY_ID_COL));
+		company.setName(rs.getString(COMPANY_NAME_COL));
 		office.setCompany(company);
 		// build company address
 		Address addr = new Address();
-		addr.setId(rs.getLong("address_id"));
-		addr.setAddress(rs.getString("office_address"));
+		addr.setId(rs.getLong(ADDRESS_ID_COL));
+		addr.setAddress(rs.getString(OFFICE_ADDRESS_COL));
 		office.setAddress(addr);
 		// build office city
 		City city = new City();
-		city.setId(rs.getLong("city_id"));
-		city.setName(rs.getString("city_name"));
+		city.setId(rs.getLong(CITY_ID_COL));
+		city.setName(rs.getString(CITY_NAME_COL));
 		addr.setCity(city);
 		// build office country
 		Country country = new Country();
-		country.setId(rs.getLong("country_id"));
-		country.setName(rs.getString("country_name"));
+		country.setId(rs.getLong(COUNTRY_ID_COL));
+		country.setName(rs.getString(COUNTRY_NAME_COL));
 		city.setCountry(country);
 
 		return office;
-	}
-
-	private static void wireOfficesWithEmployees(Map<Long, Employee> employees,
-			List<Office> offices) {
-
 	}
 
 	private static void closeResultSet(ResultSet rs) throws SQLException {
