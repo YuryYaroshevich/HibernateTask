@@ -14,6 +14,9 @@ import java.util.Map;
 
 import com.epam.ht.db.pool.ConnectionPool;
 import com.epam.ht.entity.address.Address;
+import com.epam.ht.entity.city.City;
+import com.epam.ht.entity.company.Company;
+import com.epam.ht.entity.country.Country;
 import com.epam.ht.entity.employee.Employee;
 import com.epam.ht.entity.office.Office;
 
@@ -41,7 +44,8 @@ final class EmployeeDAOJDBC implements EmployeeDAO {
 			Map<Long, Employee> employees = fetchCorrespondEmployees(con,
 					employeeIds);
 			List<Office> offices = fetchCorrespondOffices(con, employeeIds);
-			return null;
+			wireOfficesWithEmployees(employees, offices);
+			return new ArrayList<Employee>(employees.values());
 		} finally {
 			pool.makeConnectionFree(con);
 		}
@@ -101,15 +105,15 @@ final class EmployeeDAOJDBC implements EmployeeDAO {
 	}
 
 	private static Employee buildEmployee(ResultSet rs) throws SQLException {
-		// make employee
+		// build employee
 		Employee empl = new Employee();
-		empl.setId(rs.getLong(1));
-		empl.setFirstName(rs.getString(2));
-		empl.setLastName(rs.getString(3));
-		// make his address
+		empl.setId(rs.getLong("employee_id"));
+		empl.setFirstName(rs.getString("first_name"));
+		empl.setLastName(rs.getString("last_name"));
+		// build his address
 		Address addr = new Address();
 		addr.setId(empl.getId());
-		addr.setAddress(rs.getString(4));
+		addr.setAddress(rs.getString("address"));
 		empl.setAddress(addr);
 		return empl;
 	}
@@ -133,8 +137,38 @@ final class EmployeeDAOJDBC implements EmployeeDAO {
 		}
 	}
 
-	private static Office buildOffice(ResultSet rsltSet) {
-		return null;
+	private static Office buildOffice(ResultSet rs) throws SQLException {
+		// build office
+		Office office = new Office();
+		office.setId(rs.getLong("office_id"));
+		office.setNumberOfEmployees(rs.getInt("number_of_employees"));
+		// build company
+		Company company = new Company();
+		company.setId(rs.getLong("company_id"));
+		company.setName(rs.getString("company_name"));
+		office.setCompany(company);
+		// build company address
+		Address addr = new Address();
+		addr.setId(rs.getLong("address_id"));
+		addr.setAddress(rs.getString("address"));
+		office.setAddress(addr);
+		// build office city
+		City city = new City();
+		city.setId(rs.getLong("city_id"));
+		city.setName(rs.getString("city_name"));
+		addr.setCity(city);
+		// build office country
+		Country country = new Country();
+		country.setId(rs.getLong("country_id"));
+		country.setName(rs.getString("country_name"));
+		city.setCountry(country);
+
+		return office;
+	}
+
+	private static void wireOfficesWithEmployees(Map<Long, Employee> employees,
+			List<Office> offices) {
+		
 	}
 
 	private static void closeResultSet(ResultSet rs) throws SQLException {

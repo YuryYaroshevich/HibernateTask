@@ -29,17 +29,17 @@
 	    <![CDATA[select employee_id from yra.employee]]>
 	</sql-query>
 	<query name="query.EmployeeList">
-		<![CDATA[from Employee emp left join fetch emp.jobs          
-		                           left join fetch emp.address addr
-		                                 left join fetch addr.city c
-		                                 left join fetch c.country
+		<![CDATA[from Employee emp inner join fetch emp.jobs          
+		                           inner join fetch emp.address addr
+		                                 inner join fetch addr.city c
+		                                 inner join fetch c.country
 		                       where emp.id in (:employee_ids)]]>
 	</query>
 	<query name="query.CorrespondOffices">
-	    <![CDATA[from Office o left join fetch o.company
-	                           left join fetch o.address addr
-		                       left join fetch addr.city c
-		                       left join fetch c.country
+	    <![CDATA[from Office o inner join fetch o.company
+	                           inner join fetch o.address addr
+		                       inner join fetch addr.city c
+		                       inner join fetch c.country
 	                     where o.id in (:office_ids)]]>
 	</query>
 	<sql-query name="query.CorrespondOfficeIds">
