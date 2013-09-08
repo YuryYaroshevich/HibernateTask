@@ -2,8 +2,17 @@ package com.epam.ht.entity.address;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import com.epam.ht.entity.city.City;
 
+@Entity
 public class Address implements Serializable {
 	private static final long serialVersionUID = 4743510992982011631L;
 	
@@ -19,6 +28,9 @@ public class Address implements Serializable {
 		return id;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADDRESS_ID_SEQ")
+	@Column(name = "ADDRESS_ID")
 	public void setId(long addressId) {
 		this.id = addressId;
 	}
@@ -27,6 +39,7 @@ public class Address implements Serializable {
 		return address;
 	}
 
+	@Column(name = "ADDRESS")
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -35,6 +48,9 @@ public class Address implements Serializable {
 		return city;
 	}
 
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "CITY_ID")
 	public void setCity(City city) {
 		this.city = city;
 	}

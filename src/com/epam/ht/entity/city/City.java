@@ -2,8 +2,17 @@ package com.epam.ht.entity.city;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import com.epam.ht.entity.country.Country;
 
+@Entity
 public class City implements Serializable {
 	private static final long serialVersionUID = 5958802680632997798L;
 
@@ -19,6 +28,9 @@ public class City implements Serializable {
 		return country;
 	}
 
+	@Id 
+	@ManyToOne
+	@JoinColumn(name = "COUNTRY_ID")
 	public void setCountry(Country country) {
 		this.country = country;
 	}
@@ -27,6 +39,9 @@ public class City implements Serializable {
 		return id;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CITY_ID_SEQ")
+	@Column(name = "CITY_ID")
 	public void setId(long cityId) {
 		this.id = cityId;
 	}
@@ -35,6 +50,7 @@ public class City implements Serializable {
 		return name;
 	}
 
+	@Column(name = "CITY_NAME")
 	public void setName(String name) {
 		this.name = name;
 	}

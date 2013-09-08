@@ -26,7 +26,9 @@
 
 	<sql-query name="query.CorrespondEmployeeIds">
 	    <return-scalar column="employee_id" type="long" />
-	    <![CDATA[select employee_id from yra.employee]]>
+	    <![CDATA[select employee_id from yra.employee
+	                                where :first_row_numb <= rownum and
+	                                rownum <= :last_row_numb]]>
 	</sql-query>
 	<query name="query.EmployeeList">
 		<![CDATA[from Employee emp inner join fetch emp.jobs          

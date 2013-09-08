@@ -2,6 +2,13 @@ package com.epam.ht.entity.company;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Company implements Serializable {
 	private static final long serialVersionUID = -4334175722566107012L;
 	
@@ -15,6 +22,9 @@ public class Company implements Serializable {
 		return id;
 	}
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COMPANY_ID_SEQ")
+	@Column(name = "COMPANY_ID")
 	public void setId(long companyId) {
 		this.id = companyId;
 	}
@@ -23,6 +33,7 @@ public class Company implements Serializable {
 		return name;
 	}
 	
+	@Column(name = "COMPANY_NAME")
 	public void setName(String name) {
 		this.name = name;
 	}

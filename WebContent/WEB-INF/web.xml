@@ -19,4 +19,10 @@
 		<param-name>dispatchPath</param-name>
 		<param-value>/WEB-INF/pages/employeeList.jsp</param-value>
 	</context-param>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/hibertag</taglib-uri>
+			<taglib-location>/WEB-INF/tld/hibernateTag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 </web-app>

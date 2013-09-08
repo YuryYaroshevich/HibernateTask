@@ -3,9 +3,55 @@ package com.epam.ht.entity.employee;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
+import javax.persistence.SqlResultSetMappings;
+
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
 
+@Entity
+@NamedQueries({
+		@NamedQuery(name = "query.EmployeeList", 
+				query = "from Employee emp inner join fetch emp.jobs"
+				+ " inner join fetch emp.address addr"
+				+ " inner join fetch addr.city c"
+				+ " inner join fetch c.country"
+				+ " where emp.id in (:employee_ids)"),
+		@NamedQuery(name = "query.CorrespondOffices", 
+		        query = "from Office o inner join fetch o.company"
+				+ " inner join fetch o.address addr"
+				+ "inner join fetch addr.city c"
+				+ "inner join fetch c.country"
+				+ "where o.id in (:office_ids)")
+})
+@NamedNativeQueries({
+	@NamedNativeQuery(name = "query.CorrespondEmployeeIds",
+			query = "select employee_id from yra.employee",
+			resultSetMapping = "employeeIds"),
+	@NamedNativeQuery(name = "query.CorrespondOfficeIds",
+	        query = "select distinct office_id from yra.office_employee" +
+	        		" where employee_id in (:employee_ids)",
+	        resultSetMapping = "officeIds")		
+})
+@SqlResultSetMappings({
+	@SqlResultSetMapping(name = "employeeIds", columns=@ColumnResult(name = "employee_id")),
+	@SqlResultSetMapping(name = "officeIds", columns=@ColumnResult(name = "office_id"))
+})
 public class Employee implements Serializable {
 	private static final long serialVersionUID = -8246951586123338991L;
 
@@ -15,11 +61,10 @@ public class Employee implements Serializable {
 
 	private Address address;
 	private Map<Office, Position> jobs;
-	//private Set<Office> jobs;
 
 	public Employee() {
 	}
-	
+
 	public Employee(long id) {
 		setId(id);
 	}
@@ -28,6 +73,12 @@ public class Employee implements Serializable {
 		return jobs;
 	}
 
+	@ManyToMany(targetEntity = com.epam.ht.entity.office.Office.class)
+	@JoinTable(name = "OFFICE_EMPLOYEE", 
+	           joinColumns = @JoinColumn(name = "EMPLOYEE_ID"),
+	           inverseJoinColumns = @JoinColumn(name = "OFFICE_ID")
+	)
+	@MapKeyJoinColumn(name = "OFFICE_ID")
 	public void setJobs(Map<Office, Position> jobs) {
 		this.jobs = jobs;
 	}
@@ -36,6 +87,9 @@ public class Employee implements Serializable {
 		return address;
 	}
 
+	@Id
+	@OneToOne
+	@JoinColumn(name = "EMPLOYEE_ID")
 	public void setAddress(Address address) {
 		this.address = address;
 	}
@@ -44,6 +98,9 @@ public class Employee implements Serializable {
 		return id;
 	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EMPLOYEE_ID_SEQ")
+	@Column(name = "EMPLOYEE_ID")
 	public void setId(long employeeId) {
 		this.id = employeeId;
 	}
@@ -52,6 +109,7 @@ public class Employee implements Serializable {
 		return firstName;
 	}
 
+	@Column(name = "FIRST_NAME")
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -60,6 +118,7 @@ public class Employee implements Serializable {
 		return lastName;
 	}
 
+	@Column(name = "LAST_NAME")
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
