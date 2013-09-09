@@ -22,6 +22,7 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 	private static final String EMPLOYEE_LIST = "query.EmployeeList";
 	private static final String CORRESPOND_OFFICES = "query.CorrespondOffices";
 	private static final String CORRESPOND_OFFICE_IDS = "query.CorrespondOfficeIds";
+	private static final String EMPLOYEES_NUMBER = "query.EmployeesNumber";
 
 	// parameter names for queries
 	private static final String FIRST_ROW_NUMB_PARAM = "first_row_numb";
@@ -36,6 +37,7 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 		return dao;
 	}
 
+	@Override
 	public List<Employee> getEmployees(int rowsNumber) {
 		return getEmployees(rowsNumber, 1);
 	}
@@ -46,7 +48,7 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 
-		// get ids of employees on correspond page 
+		// get ids of employees on correspond page
 		int firstRowNumb = numEmployeesPerPage * (pageNumber - 1) + 1;
 		int lastRowNumb = firstRowNumb + numEmployeesPerPage - 1;
 		List<Long> employeeIds = session.getNamedQuery(CORRESPOND_EMPLOYEE_IDS)
@@ -64,5 +66,17 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 
 		tx.commit();
 		return employees;
+	}
+
+	@Override
+	public int countEmployees() {
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+
+		int employeesNumber = (Integer) session.getNamedQuery(EMPLOYEES_NUMBER)
+				.uniqueResult();
+
+		tx.commit();
+		return employeesNumber;
 	}
 }

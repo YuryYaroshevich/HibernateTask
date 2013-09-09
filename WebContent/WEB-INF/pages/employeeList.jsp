@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="jstl"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib uri="/hibertag" prefix="hbtg" %>
+<%@ taglib uri="/hibertag" prefix="hbtg"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,7 +12,7 @@
 <title>Employee list</title>
 </head>
 <body>
-    <hbtg:paging />
+	<hbtg:paging />
 	<h2>Employee list</h2>
 	<table>
 		<tr>
@@ -25,8 +25,7 @@
 			<th>City</th>
 			<th>Country</th>
 			<th>Address</th>
-			<th>Number of employees<br>for
-				given company office
+			<th>Number of employees<br>for given company office
 			</th>
 			<th>Position</th>
 
@@ -46,19 +45,20 @@
 				</jstl:choose>
 				<jstl:forEach var="job" items="${employee.jobs}" varStatus="status">
 					<jstl:if test="${status.index != 0}">
-						</tr><tr>
-					</jstl:if>
-					<td>${job.key.company}</td>
-					<td>${job.key.address.city}</td>
-					<td>${job.key.address.city.country}</td>
-					<td>${job.key.address}</td>
-					<td>${job.key.numberOfEmployees}</td>
-					<td>${job.value}</td> 
-					<jstl:if test="${(status.index != 0) && (!status.last)}">
-						</tr>
-					</jstl:if>
-				</jstl:forEach>	
 			</tr>
+			<tr>
+				</jstl:if>
+				<td>${job.key.company}</td>
+				<td>${job.key.address.city}</td>
+				<td>${job.key.address.city.country}</td>
+				<td>${job.key.address}</td>
+				<td>${job.key.numberOfEmployees}</td>
+				<td>${job.value}</td>
+				<jstl:if test="${(status.index != 0) && (!status.last)}">
+			</tr>
+			</jstl:if>
+		</jstl:forEach>
+		</tr>
 		</jstl:forEach>
 	</table>
 </body>

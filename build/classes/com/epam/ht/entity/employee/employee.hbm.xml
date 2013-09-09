@@ -49,4 +49,7 @@
 	    <![CDATA[select distinct office_id from yra.office_employee 
 	                           where employee_id in (:employee_ids)]]>
 	</sql-query>
+	<query name="query.EmployeesNumber">
+	    <![CDATA[select count(*) from Employee]]>
+	</query>
 </hibernate-mapping>

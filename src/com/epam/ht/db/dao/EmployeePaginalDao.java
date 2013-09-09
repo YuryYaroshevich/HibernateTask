@@ -6,4 +6,6 @@ import com.epam.ht.entity.employee.Employee;
 
 public interface EmployeePaginalDao extends EmployeeDao {
 	List<Employee> getEmployees(int numEmployeesPerPage, int pageNumber);
+	
+	int countEmployees();
 }

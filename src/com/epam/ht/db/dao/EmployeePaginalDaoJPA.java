@@ -70,4 +70,10 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int countEmployees() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
