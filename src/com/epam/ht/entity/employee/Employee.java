@@ -46,7 +46,10 @@ import com.epam.ht.entity.office.Office;
 	@NamedNativeQuery(name = "query.CorrespondOfficeIds",
 	        query = "select distinct office_id from yra.office_employee" +
 	        		" where employee_id in (:employee_ids)",
-	        resultSetMapping = "officeIds")		
+	        resultSetMapping = "officeIds"),
+	@NamedNativeQuery(name = "query.EmployeesNumber",
+	        query = "select count(*) as employees_number" +
+	        		" from yra.employee")        
 })
 @SqlResultSetMappings({
 	@SqlResultSetMapping(name = "employeeIds", columns=@ColumnResult(name = "employee_id")),

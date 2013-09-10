@@ -12,8 +12,10 @@
 <title>Employee list</title>
 </head>
 <body>
-	<hbtg:paging />
 	<h2>Employee list</h2>
+	<div id="paging-tag">
+		<hbtg:paging />
+	</div>
 	<table>
 		<tr>
 			<th rowspan="2">Name</th>

@@ -28,8 +28,7 @@ public class PaginalOutputTag extends TagSupport {
 		int currentPageIndex = (Integer) session
 				.getAttribute(CURRENT_PAGE_INDEX);
 		// count first and last indexes in the list of page numbers
-		int firstPageIndex = (currentPageIndex / PAGE_INDEXES_PER_PAGE)
-				* PAGE_INDEXES_PER_PAGE + 1;
+		int firstPageIndex = countFirstPageIndex(currentPageIndex);
 		int lastPageIndex = firstPageIndex + PAGE_INDEXES_PER_PAGE - 1;
 		if (lastPageIndex > numberOfPages) {
 			lastPageIndex = numberOfPages;
@@ -37,6 +36,19 @@ public class PaginalOutputTag extends TagSupport {
 		writeTagOnJSP(firstPageIndex, lastPageIndex, numberOfPages,
 				pageContext.getOut());
 		return SKIP_BODY;
+	}
+
+	private static int countFirstPageIndex(int currentPageIndex) {
+		if ((currentPageIndex > PAGE_INDEXES_PER_PAGE)
+				&& (currentPageIndex % PAGE_INDEXES_PER_PAGE != 0)) {
+			return (currentPageIndex / PAGE_INDEXES_PER_PAGE)
+					* PAGE_INDEXES_PER_PAGE + 1;
+		} else if ((currentPageIndex > PAGE_INDEXES_PER_PAGE)
+				&& (currentPageIndex % PAGE_INDEXES_PER_PAGE == 0)) {
+			return currentPageIndex - PAGE_INDEXES_PER_PAGE + 1;
+		} else {
+			return 1;
+		}
 	}
 
 	private static void writeTagOnJSP(int firstPageIndex, int lastPageIndex,
@@ -56,12 +68,6 @@ public class PaginalOutputTag extends TagSupport {
 			writer.write(DIV_TAG_END);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -74,9 +80,9 @@ public class PaginalOutputTag extends TagSupport {
 					+ getProperty(ANCHOR_TAG_END_LEFT_EDGE);
 		} else if (rightEdge) {
 			return getProperty(ANCHOR_TAG_BEGIN) + pageIndex
-					+ ANCHOR_TAG_END_RIGHT_EDGE;
+					+ getProperty(ANCHOR_TAG_END_RIGHT_EDGE);
 		}
-		return getProperty(ANCHOR_TAG_BEGIN) + pageIndex + "'>" + pageIndex
+		return getProperty(ANCHOR_TAG_BEGIN) + pageIndex + "'> " + pageIndex
 				+ "</a>";
 	}
 }

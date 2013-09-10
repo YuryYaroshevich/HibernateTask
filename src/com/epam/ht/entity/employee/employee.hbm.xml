@@ -26,9 +26,7 @@
 
 	<sql-query name="query.CorrespondEmployeeIds">
 	    <return-scalar column="employee_id" type="long" />
-	    <![CDATA[select employee_id from yra.employee
-	                                where :first_row_numb <= rownum and
-	                                rownum <= :last_row_numb]]>
+	    <![CDATA[select employee_id from yra.employee]]>
 	</sql-query>
 	<query name="query.EmployeeList">
 		<![CDATA[from Employee emp inner join fetch emp.jobs          
@@ -49,7 +47,8 @@
 	    <![CDATA[select distinct office_id from yra.office_employee 
 	                           where employee_id in (:employee_ids)]]>
 	</sql-query>
-	<query name="query.EmployeesNumber">
-	    <![CDATA[select count(*) from Employee]]>
-	</query>
+	<sql-query name="query.EmployeesNumber">
+	    <return-scalar column="employees_number" type="int" />
+	    <![CDATA[select count(*) as employees_number from yra.employee]]>
+	</sql-query>
 </hibernate-mapping>

@@ -34,10 +34,10 @@ public class EmployeeListServlet extends HttpServlet {
 	private void processRequest(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			EmployeePaginalDao employeeDAO = EmployeePaginalDaoFactory
+			EmployeePaginalDao emplDAO = EmployeePaginalDaoFactory
 					.getEmployeeDAO(HIBERNATE);
 			Command command = CommandCreator.createCommand(req);
-			command.execute(req, employeeDAO);
+			command.execute(req, emplDAO);
 			//List<Employee> employees = employeeDAO.getEmployees(EMPLOYEES_NUMBER);
 			//req.getSession(true).setAttribute(EMPLOYEES, employees);
 			String dispatchPath = getServletContext().getInitParameter(

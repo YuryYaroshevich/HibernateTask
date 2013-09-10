@@ -13,5 +13,12 @@ td, th {
 		
 }
 
+#paging-tag {
+	margin-bottom: 10px;
+}
+
+.page-number {
+	margin-right: 5px;
+}
 
 

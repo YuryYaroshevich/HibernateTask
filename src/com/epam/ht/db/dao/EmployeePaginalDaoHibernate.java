@@ -50,10 +50,9 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 
 		// get ids of employees on correspond page
 		int firstRowNumb = numEmployeesPerPage * (pageNumber - 1) + 1;
-		int lastRowNumb = firstRowNumb + numEmployeesPerPage - 1;
 		List<Long> employeeIds = session.getNamedQuery(CORRESPOND_EMPLOYEE_IDS)
-				.setParameter(FIRST_ROW_NUMB_PARAM, firstRowNumb)
-				.setParameter(LAST_ROW_NUMB_PARAM, lastRowNumb).list();
+				.setFirstResult(firstRowNumb)
+				.setMaxResults(numEmployeesPerPage).list();
 		// get id of offices where employees work
 		List<Long> officeIds = session.getNamedQuery(CORRESPOND_OFFICE_IDS)
 				.setParameterList(EMPLOYEE_IDS_PARAM, employeeIds).list();
