@@ -9,6 +9,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" type="text/css" href="css/employeeList.css"
 	media="screen" />
+<script type="text/javascript" src="js/jquery-1.9.1.js"></script>	
+<script type="text/javascript" src="js/validation.js"></script>
 <title>Employee list</title>
 </head>
 <body>

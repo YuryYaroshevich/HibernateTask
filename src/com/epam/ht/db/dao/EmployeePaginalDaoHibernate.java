@@ -32,15 +32,15 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Employee> getEmployees(int numEmployeesPerPage, int pageNumber) {
+	public List<Employee> getEmployees(int nEmplsPerPage, int pageNumber) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 
 		// get ids of employees on correspond page
-		int firstRowNumb = numEmployeesPerPage * (pageNumber - 1) + 1;
+		int firstRowNumb = nEmplsPerPage * (pageNumber - 1) + 1;
 		List<Long> employeeIds = session.getNamedQuery(CORRESPOND_EMPLOYEE_IDS)
 				.setFirstResult(firstRowNumb)
-				.setMaxResults(numEmployeesPerPage).list();
+				.setMaxResults(nEmplsPerPage).list();
 		// get id of offices where employees work
 		List<Long> officeIds = session.getNamedQuery(CORRESPOND_OFFICE_IDS)
 				.setParameterList(EMPLOYEE_IDS_PARAM, employeeIds).list();

@@ -59,31 +59,28 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 	}
 
 	@Override
-	public List<Employee> getEmployees(int numEmployeesPerPage, int pageNumber)
+	public List<Employee> getEmployees(int nEmplsPerPage, int pageNumber)
 			throws Exception {
 		Connection con = null;
 		ConnectionPool pool = ConnectionPool.getInstance();
 		try {
 			con = pool.getConnection();
-			List<Employee> employees = fetchCorrespondEmployees(con,
-					numEmployeesPerPage, pageNumber);
-			return employees;
+			return fetchCorrespondEmployees(con, nEmplsPerPage,
+					pageNumber);
 		} finally {
 			pool.makeConnectionFree(con);
 		}
 	}
-	
+
 	private static List<Employee> fetchCorrespondEmployees(Connection con,
-			int numEmployeesPerPage, int pageNumber) throws SQLException {
+			int nEmplsPerPage, int pageNumber) throws SQLException {
 		PreparedStatement statem = null;
 		ResultSet rsltSet = null;
 		try {
 			statem = con.prepareStatement(getProperty(EMPLOYEE_LIST));
 			// count first and last row numbers
-			int firstRowNumb = numEmployeesPerPage * (pageNumber - 1) + 1;
-			System.out.println(firstRowNumb + " firstRowNumb");
-			System.out.println(numEmployeesPerPage + "numEmployeesPerPage in dao");
-			int lastRowNumb = firstRowNumb + numEmployeesPerPage;
+			int firstRowNumb = nEmplsPerPage * (pageNumber - 1) + 1;
+			int lastRowNumb = firstRowNumb + nEmplsPerPage - 1;
 			statem.setInt(1, firstRowNumb);
 			statem.setInt(2, lastRowNumb);
 			rsltSet = statem.executeQuery();
@@ -100,16 +97,13 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 				currentEmployeeId = rsltSet.getLong(EMPLOYEE_ID_COL);
 				// if not equal then group of rows of another employee started
 				if (currentEmployeeId != previousEmployeeId) {
-					// adding of previous employee to list
-					if (empl != null) {
-						empl.setJobs(jobs);
-						employees.add(empl);
-					}
 					// fetch new employee and fetch his first job
 					empl = buildEmployee(rsltSet, currentEmployeeId);
+					employees.add(empl);
 					position = new Position(rsltSet.getString(POSITION_COL));
 					office = buildOffice(rsltSet);
 					jobs = new HashMap<Office, Position>();
+					empl.setJobs(jobs);
 					jobs.put(office, position);
 				} else {
 					// add office to existing employee
@@ -117,7 +111,8 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 					office = buildOffice(rsltSet);
 					jobs.put(office, position);
 				}
-			}
+				previousEmployeeId = currentEmployeeId;
+			}		
 			return employees;
 		} finally {
 			closeResultSet(rsltSet);

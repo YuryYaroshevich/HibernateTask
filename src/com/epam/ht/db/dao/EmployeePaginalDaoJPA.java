@@ -36,17 +36,17 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Employee> getEmployees(int numEmployeesPerPage, int pageNumber) {
+	public List<Employee> getEmployees(int nEmplsPerPage, int pageNumber) {
 		EntityManager entManager = entManagerFactory.createEntityManager();
 		EntityTransaction tx = entManager.getTransaction();
 		tx.begin();
 
 		// get ids of employees on correspond page
-		int firstRowNumb = numEmployeesPerPage * (pageNumber - 1) + 1;
+		int firstRowNumb = nEmplsPerPage * (pageNumber - 1) + 1;
 		List<Long> employeeIds = entManager
 				.createNamedQuery(CORRESPOND_EMPLOYEE_IDS)
 				.setFirstResult(firstRowNumb)
-				.setMaxResults(numEmployeesPerPage).getResultList();
+				.setMaxResults(nEmplsPerPage).getResultList();
 		// get id of offices where first 100 employees work
 		List<Long> officeIds = entManager
 				.createNamedQuery(CORRESPOND_OFFICE_IDS)

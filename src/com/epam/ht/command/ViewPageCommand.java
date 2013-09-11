@@ -18,7 +18,6 @@ final class ViewPageCommand implements Command {
 			throws Exception {
 		HttpSession session = req.getSession(true);
 		int nEmplPerPage = (Integer) session.getAttribute(N_EMPLS_PER_PAGE);
-		System.out.println(nEmplPerPage + " nEmplPerPage");
 		int currentPage = Integer.valueOf(req.getParameter(PAGE_INDEX_PARAM));
 		// gets employees for output on chosen page
 		List<Employee> employees = emplDao.getEmployees(nEmplPerPage,

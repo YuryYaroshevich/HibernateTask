@@ -21,4 +21,8 @@ td, th {
 	margin-right: 5px;
 }
 
+span.error-msg {
+	color: red;
+}
+
 
