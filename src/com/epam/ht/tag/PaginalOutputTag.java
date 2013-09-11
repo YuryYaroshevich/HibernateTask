@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import com.epam.ht.util.PagingHelper;
+
 import static com.epam.ht.resource.PropertyGetter.getProperty;
 import static com.epam.ht.constant.HTConstant.*;
 
@@ -28,7 +30,8 @@ public class PaginalOutputTag extends TagSupport {
 		int currentPageIndex = (Integer) session
 				.getAttribute(CURRENT_PAGE_INDEX);
 		// count first and last indexes in the list of page numbers
-		int firstPageIndex = countFirstPageIndex(currentPageIndex);
+		int firstPageIndex = PagingHelper.countFirstPageIndex(currentPageIndex,
+				PAGE_INDEXES_PER_PAGE);
 		int lastPageIndex = firstPageIndex + PAGE_INDEXES_PER_PAGE - 1;
 		if (lastPageIndex > numberOfPages) {
 			lastPageIndex = numberOfPages;
@@ -36,19 +39,6 @@ public class PaginalOutputTag extends TagSupport {
 		writeTagOnJSP(firstPageIndex, lastPageIndex, numberOfPages,
 				pageContext.getOut());
 		return SKIP_BODY;
-	}
-
-	private static int countFirstPageIndex(int currentPageIndex) {
-		if ((currentPageIndex > PAGE_INDEXES_PER_PAGE)
-				&& (currentPageIndex % PAGE_INDEXES_PER_PAGE != 0)) {
-			return (currentPageIndex / PAGE_INDEXES_PER_PAGE)
-					* PAGE_INDEXES_PER_PAGE + 1;
-		} else if ((currentPageIndex > PAGE_INDEXES_PER_PAGE)
-				&& (currentPageIndex % PAGE_INDEXES_PER_PAGE == 0)) {
-			return currentPageIndex - PAGE_INDEXES_PER_PAGE + 1;
-		} else {
-			return 1;
-		}
 	}
 
 	private static void writeTagOnJSP(int firstPageIndex, int lastPageIndex,

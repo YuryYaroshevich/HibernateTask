@@ -1,6 +1,6 @@
 package com.epam.ht.controller;
 
-import static com.epam.ht.db.dao.EmployeePaginalDaoFactory.DAOType.HIBERNATE;
+import static com.epam.ht.db.dao.EmployeePaginalDaoFactory.DAOType.*;
 
 import java.io.IOException;
 
@@ -35,11 +35,9 @@ public class EmployeeListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			EmployeePaginalDao emplDAO = EmployeePaginalDaoFactory
-					.getEmployeeDAO(HIBERNATE);
+					.getEmployeeDAO(JDBC);
 			Command command = CommandCreator.createCommand(req);
 			command.execute(req, emplDAO);
-			//List<Employee> employees = employeeDAO.getEmployees(EMPLOYEES_NUMBER);
-			//req.getSession(true).setAttribute(EMPLOYEES, employees);
 			String dispatchPath = getServletContext().getInitParameter(
 					DISPATCH_PATH);
 			RequestDispatcher dispatcher = req

@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 
 import com.epam.ht.entity.employee.Employee;
 import com.epam.ht.util.SessionFactoryGetter;
+import static com.epam.ht.constant.HTConstant.*;
 
 final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 	private static EmployeePaginalDao dao = new EmployeePaginalDaoHibernate();
@@ -16,19 +17,6 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 	static {
 		sessionFactory = SessionFactoryGetter.getSessionFactory();
 	}
-
-	// query name
-	private static final String CORRESPOND_EMPLOYEE_IDS = "query.CorrespondEmployeeIds";
-	private static final String EMPLOYEE_LIST = "query.EmployeeList";
-	private static final String CORRESPOND_OFFICES = "query.CorrespondOffices";
-	private static final String CORRESPOND_OFFICE_IDS = "query.CorrespondOfficeIds";
-	private static final String EMPLOYEES_NUMBER = "query.EmployeesNumber";
-
-	// parameter names for queries
-	private static final String FIRST_ROW_NUMB_PARAM = "first_row_numb";
-	private static final String LAST_ROW_NUMB_PARAM = "last_row_numb";
-	private static final String EMPLOYEE_IDS_PARAM = "employee_ids";
-	private static final String OFFICE_IDS_PARAM = "office_ids";
 
 	private EmployeePaginalDaoHibernate() {
 	}

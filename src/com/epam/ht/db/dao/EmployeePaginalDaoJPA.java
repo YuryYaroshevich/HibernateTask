@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 
 import com.epam.ht.entity.employee.Employee;
+import static com.epam.ht.constant.HTConstant.*;
 
 final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 	private static final EmployeePaginalDao dao = new EmployeePaginalDaoJPA();
@@ -21,16 +22,6 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 	private static final EntityManagerFactory entManagerFactory = Persistence
 			.createEntityManagerFactory(getProperty(PERSISTENCE_UNIT_NAME));
 
-	// query name
-	private static final String CORRESPOND_EMPLOYEE_IDS = "query.CorrespondEmployeeIds";
-	private static final String EMPLOYEE_LIST = "query.EmployeeList";
-	private static final String CORRESPOND_OFFICES = "query.CorrespondOffices";
-	private static final String CORRESPOND_OFFICE_IDS = "query.CorrespondOfficeIds";
-
-	// parameter names for queries
-	private static final String EMPLOYEE_IDS_PARAM = "employee_ids";
-	private static final String OFFICE_IDS_PARAM = "office_ids";
-
 	private EmployeePaginalDaoJPA() {
 	}
 
@@ -39,16 +30,23 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<Employee> getEmployees(int rowsNumber) throws Exception {
+		return getEmployees(rowsNumber, 1);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Employee> getEmployees(int numEmployeesPerPage, int pageNumber) {
 		EntityManager entManager = entManagerFactory.createEntityManager();
 		EntityTransaction tx = entManager.getTransaction();
 		tx.begin();
 
-		// get ids of first 100 employees
+		// get ids of employees on correspond page
+		int firstRowNumb = numEmployeesPerPage * (pageNumber - 1) + 1;
 		List<Long> employeeIds = entManager
 				.createNamedQuery(CORRESPOND_EMPLOYEE_IDS)
-				.setMaxResults(rowsNumber).getResultList();
+				.setFirstResult(firstRowNumb)
+				.setMaxResults(numEmployeesPerPage).getResultList();
 		// get id of offices where first 100 employees work
 		List<Long> officeIds = entManager
 				.createNamedQuery(CORRESPOND_OFFICE_IDS)
@@ -59,21 +57,23 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// get employees
 		List<Employee> employees = entManager.createNamedQuery(EMPLOYEE_LIST)
 				.setParameter(EMPLOYEE_IDS_PARAM, employeeIds).getResultList();
-		
+
 		tx.commit();
 		entManager.close();
 		return employees;
 	}
 
 	@Override
-	public List<Employee> getEmployees(int numEmployeesPerPage, int pageNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int countEmployees() {
-		// TODO Auto-generated method stub
-		return 0;
+		EntityManager entManager = entManagerFactory.createEntityManager();
+		EntityTransaction tx = entManager.getTransaction();
+		tx.begin();
+
+		int employeesNumber = (Integer) entManager.createNamedQuery(EMPLOYEES_NUMBER)
+				.getSingleResult();
+
+		tx.commit();
+		entManager.close();
+		return employeesNumber;
 	}
 }
