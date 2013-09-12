@@ -17,7 +17,8 @@ public class PaginalOutputTag extends TagSupport {
 	private static final int PAGE_INDEXES_PER_PAGE = 20;
 
 	// HTML parts of tag
-	private static final String SET_NUMB_EMPLOYEES_PER_PAGE = "tag.paging.set.employees.number";
+	private static final String SET_N_EMPLS_PER_PAGE_FORM = "tag.paging.set.employees.number.form";
+	private static final String GO_TO_PAGE_FORM = "tag.paging.go.to.page.form";
 	private static final String ANCHOR_TAG_BEGIN = "tag.paging.anchor.tag.start";
 	private static final String ANCHOR_TAG_END_LEFT_EDGE = "tag.paging.anchor.tag.end.left.edge";
 	private static final String ANCHOR_TAG_END_RIGHT_EDGE = "tag.paging.anchor.tag.end.right.edge";
@@ -44,7 +45,8 @@ public class PaginalOutputTag extends TagSupport {
 	private static void writeTagOnJSP(int firstPageIndex, int lastPageIndex,
 			int numberOfPages, JspWriter writer) {
 		try {
-			writer.write(getProperty(SET_NUMB_EMPLOYEES_PER_PAGE));
+			writer.write(getProperty(SET_N_EMPLS_PER_PAGE_FORM));
+			writer.write(getProperty(GO_TO_PAGE_FORM));
 			writer.write(DIV_TAG_BEGIN);
 			if (firstPageIndex > 1) {
 				writer.write(buildAnchorTag(firstPageIndex - 1, true, false));

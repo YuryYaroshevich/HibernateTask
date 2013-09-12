@@ -1,6 +1,5 @@
 table,tr,td,th {
 	margin: 0px;
-	
 	border: 1px solid black;
 }
 
@@ -11,6 +10,10 @@ tr ,td, th, caption {
 td, th {
 	text-align: center;
 		
+}
+
+form {
+	margin-top: 5px;
 }
 
 #paging-tag {
@@ -25,4 +28,14 @@ span.error-msg {
 	color: red;
 }
 
+#enter-button, #go-button {
+	margin-left: 10px;
+}
 
+input[name="nEmplsPerPage"] {
+	margin-left: 10px;
+}
+
+input[name="pageIndex"] {
+	margin-left: 87px;
+}
