@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import com.epam.ht.entity.country.Country;
 
@@ -16,9 +18,17 @@ import com.epam.ht.entity.country.Country;
 public class City implements Serializable {
 	private static final long serialVersionUID = 5958802680632997798L;
 
+	@Id
+	@SequenceGenerator(name = "city_id_generator", sequenceName = "city_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "city_id_generator")
+	@Column(name = "CITY_ID")
 	private long id;
+
+	@Column(name = "CITY_NAME")
 	private String name;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "COUNTRY_ID")
 	private Country country;
 
 	public City() {
@@ -28,9 +38,6 @@ public class City implements Serializable {
 		return country;
 	}
 
-	@Id 
-	@ManyToOne
-	@JoinColumn(name = "COUNTRY_ID")
 	public void setCountry(Country country) {
 		this.country = country;
 	}
@@ -39,9 +46,6 @@ public class City implements Serializable {
 		return id;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CITY_ID_SEQ")
-	@Column(name = "CITY_ID")
 	public void setId(long cityId) {
 		this.id = cityId;
 	}
@@ -50,7 +54,6 @@ public class City implements Serializable {
 		return name;
 	}
 
-	@Column(name = "CITY_NAME")
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -81,20 +84,20 @@ public class City implements Serializable {
 		if (country == null) {
 			if (other.country != null) {
 				return false;
-			}	
+			}
 		} else if (!country.equals(other.country)) {
 			return false;
 		}
 		if (id != other.id) {
 			return false;
-		}	
+		}
 		if (name == null) {
 			if (other.name != null) {
 				return false;
-			}	
+			}
 		} else if (!name.equals(other.name)) {
 			return false;
-		}	
+		}
 		return true;
 	}
 }

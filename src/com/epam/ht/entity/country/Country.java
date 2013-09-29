@@ -7,12 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Country implements Serializable {
 	private static final long serialVersionUID = 7799307133606363130L;
-
+	
+	@Column(name = "COUNTRY_NAME")
 	private String name;
+	
+	@Id
+	@SequenceGenerator(name = "country_id_generator", sequenceName = "COUNTRY_ID_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_generator")
+	@Column(name = "COUNTRY_ID")
 	private long id;
 
 	public Country() {
@@ -22,7 +29,6 @@ public class Country implements Serializable {
 		return name;
 	}
 
-	@Column(name = "COUNTRY_NAME")
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -31,9 +37,6 @@ public class Country implements Serializable {
 		return id;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "COUNTRY_ID_SEQ")
-	@Column(name = "COUNTRY_ID")
 	public void setId(long countryId) {
 		this.id = countryId;
 	}

@@ -18,8 +18,9 @@
 	<div id="paging-tag">
 		<hbtg:paging />
 	</div>
-	<table>
+<table>
 		<tr>
+			<th rowspan="2">Index</th>
 			<th rowspan="2">Name</th>
 			<th rowspan="2">Address</th>
 			<th colspan="6">Offices</th>
@@ -32,18 +33,22 @@
 			<th>Number of employees<br>for given company office
 			</th>
 			<th>Position</th>
+
 		</tr>
-		<jstl:forEach var="employee" items="${employees}">
+		<jstl:forEach var="employee" items="${employees}" varStatus="counter">
 			<tr>
 				<jstl:choose>
 					<jstl:when test="${fn:length(employee.jobs) == 1}">
+						<td>${counter.count}</td>
 						<td>${employee.id} ${employee.firstName} ${employee.lastName}</td>
-						<td>${employee.address}</td>
+						<td>${employee.address.id} ${employee.address}</td>
 					</jstl:when>
 					<jstl:otherwise>
-						<td rowspan="${fn:length(employee.jobs)}">${employee.firstName}
-							${employee.lastName}</td>
-						<td rowspan="${fn:length(employee.jobs)}">${employee.address}</td>
+						<td rowspan="${fn:length(employee.jobs)}">${counter.count}</td>
+						<td rowspan="${fn:length(employee.jobs)}">${employee.id}
+							${employee.firstName} ${employee.lastName}</td>
+						<td rowspan="${fn:length(employee.jobs)}">${employee.address.id}
+							${employee.address}</td>
 					</jstl:otherwise>
 				</jstl:choose>
 				<jstl:forEach var="job" items="${employee.jobs}" varStatus="status">
@@ -51,12 +56,13 @@
 			</tr>
 			<tr>
 				</jstl:if>
-				<td>${job.key.company}</td>
-				<td>${job.key.address.city}</td>
-				<td>${job.key.address.city.country}</td>
-				<td>${job.key.address}</td>
+				<td>${job.key.company.id} ${job.key.company}</td>
+				<td>${job.key.address.city.id} ${job.key.address.city}</td>
+				<td>${job.key.address.city.country.id}
+					${job.key.address.city.country}</td>
+				<td>${job.key.address.id} ${job.key.address}</td>
 				<td>${job.key.numberOfEmployees}</td>
-				<td>${job.value}</td>
+				<td>${job.value.id} ${job.value}</td>
 				<jstl:if test="${(status.index != 0) && (!status.last)}">
 			</tr>
 			</jstl:if>

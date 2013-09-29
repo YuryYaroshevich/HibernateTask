@@ -4,23 +4,33 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import com.epam.ht.entity.city.City;
 
 @Entity
 public class Address implements Serializable {
 	private static final long serialVersionUID = 4743510992982011631L;
-	
+
+	@Id
+	@SequenceGenerator(name = "address_id_generator", sequenceName = "ADDRESS_ID_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_id_generator")
+	@Column(name = "ADDRESS_ID")
 	private long id;
+
+	@Column(name = "ADDRESS")
 	private String address;
-	
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CITY_ID")
 	private City city;
-	
+
 	public Address() {
 	}
 
@@ -28,9 +38,6 @@ public class Address implements Serializable {
 		return id;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ADDRESS_ID_SEQ")
-	@Column(name = "ADDRESS_ID")
 	public void setId(long addressId) {
 		this.id = addressId;
 	}
@@ -39,7 +46,6 @@ public class Address implements Serializable {
 		return address;
 	}
 
-	@Column(name = "ADDRESS")
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -48,13 +54,10 @@ public class Address implements Serializable {
 		return city;
 	}
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "CITY_ID")
 	public void setCity(City city) {
 		this.city = city;
 	}
-	
+
 	public String toString() {
 		return address;
 	}
@@ -73,28 +76,28 @@ public class Address implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
-		}	
+		}
 		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
-		}	
+		}
 		Address other = (Address) obj;
 		if (address == null) {
 			if (other.address != null) {
 				return false;
-			}	
+			}
 		} else if (!address.equals(other.address)) {
 			return false;
-		}	
+		}
 		if (city == null) {
 			if (other.city != null) {
 				return false;
-			}	
+			}
 		} else if (!city.equals(other.city)) {
 			return false;
-		}	
+		}
 		if (id != other.id) {
 			return false;
-		}	
+		}
 		return true;
 	}
 }

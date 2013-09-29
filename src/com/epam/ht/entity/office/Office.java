@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Formula;
 
@@ -19,10 +21,22 @@ import com.epam.ht.entity.company.Company;
 public class Office implements Serializable {
 	private static final long serialVersionUID = 1130756185750654144L;
 
+	@Id
+	@SequenceGenerator(name = "office_id_generator", sequenceName = "OFFICE_ID_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "office_id_generator")
+	@Column(name = "OFFICE_ID")
 	private long id;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ADDRESS_ID")
 	private Address address;
 
+	@Formula("(select count(*) from yra.OFFICE_EMPLOYEE oe"
+			+ " where oe.office_id = office_id)")
 	private int numberOfEmployees;
 
 	public Office() {
@@ -32,9 +46,6 @@ public class Office implements Serializable {
 		return address;
 	}
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "ADDRESS_ID")
 	public void setAddress(Address address) {
 		this.address = address;
 	}
@@ -43,8 +54,6 @@ public class Office implements Serializable {
 		return numberOfEmployees;
 	}
 
-	@Formula("(select count(*) from yra.OFFICE_EMPLOYEE oe" +
-			" where oe.office_id = office_id)")
 	public void setNumberOfEmployees(int numberOfEmployees) {
 		this.numberOfEmployees = numberOfEmployees;
 	}
@@ -53,9 +62,6 @@ public class Office implements Serializable {
 		return id;
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "OFFICE_ID_SEQ")
-	@Column(name = "OFFICE_ID")
 	public void setId(long officeId) {
 		this.id = officeId;
 	}
@@ -64,9 +70,6 @@ public class Office implements Serializable {
 		return company;
 	}
 
-	@Id
-	@ManyToOne
-	@JoinColumn(name = "COMPANY_ID")
 	public void setCompany(Company company) {
 		this.company = company;
 	}

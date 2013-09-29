@@ -5,7 +5,8 @@
 	version="2.0">
 	<persistence-unit name="persistenceUnit"
 		transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		 <provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
 			<property name="javax.persistence.jdbc.user" value="yra" />
@@ -14,6 +15,7 @@
 			<property name="javax.persistence.validation.mode" value="none" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
 			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.archive.autodetection" value="class" />
 		</properties>
 	</persistence-unit>
 </persistence>

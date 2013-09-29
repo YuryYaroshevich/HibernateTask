@@ -3,13 +3,23 @@ package com.epam.ht.entity.employee;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 // Job position
-@Embeddable
+@Entity
 public class Position implements Serializable {
 	private static final long serialVersionUID = -2082971136281218506L;
 
+	@Id
+	@SequenceGenerator(name="position_id_generator", sequenceName="position_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="position_id_generator")
+	@Column(name="position_id")
+	private long id;
+	
 	private String position;
 
 	public Position() {
@@ -19,6 +29,14 @@ public class Position implements Serializable {
 		setPosition(position);
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	public String getPosition() {
 		return position;
 	}
@@ -28,6 +46,7 @@ public class Position implements Serializable {
 		this.position = position;
 	}
 
+	@Override
 	public String toString() {
 		return position;
 	}

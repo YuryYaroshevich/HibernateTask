@@ -2,16 +2,21 @@ package com.epam.ht.db.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import com.epam.ht.entity.employee.Employee;
+import com.epam.ht.entity.office.Office;
 import com.epam.ht.util.SessionFactoryGetter;
 import static com.epam.ht.constant.HTConstant.*;
 
 final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 	private static EmployeePaginalDao dao = new EmployeePaginalDaoHibernate();
+
+	private static final String ID_PARAM = "id";
 
 	private static SessionFactory sessionFactory;
 	static {
@@ -39,17 +44,18 @@ final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 		// get ids of employees on correspond page
 		int firstRowNumb = nEmplsPerPage * (pageNumber - 1) + 1;
 		List<Long> employeeIds = session.getNamedQuery(CORRESPOND_EMPLOYEE_IDS)
-				.setFirstResult(firstRowNumb)
-				.setMaxResults(nEmplsPerPage).list();
+				.setFirstResult(firstRowNumb).setMaxResults(nEmplsPerPage)
+				.list();
 		// get id of offices where employees work
 		List<Long> officeIds = session.getNamedQuery(CORRESPOND_OFFICE_IDS)
 				.setParameterList(EMPLOYEE_IDS_PARAM, employeeIds).list();
 		// load in session correspond offices
-		session.getNamedQuery(CORRESPOND_OFFICES)
-				.setParameterList(OFFICE_IDS_PARAM, officeIds).list();
+		session.createCriteria(Office.class)
+				.add(Restrictions.in(ID_PARAM, officeIds)).list();
 		// get employees
-		List<Employee> employees = session.getNamedQuery(EMPLOYEE_LIST)
-				.setParameterList(EMPLOYEE_IDS_PARAM, employeeIds).list();
+		List<Employee> employees = session.createCriteria(Employee.class)
+				.add(Restrictions.in(ID_PARAM, employeeIds))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
 
 		tx.commit();
 		return employees;
