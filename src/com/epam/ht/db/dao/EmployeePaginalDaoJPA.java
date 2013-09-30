@@ -63,24 +63,24 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// load in session correspond offices
 		fetchEntityList(entManager, critBuilder, officeIds, Office.class);
 		// get employees
-		List<Employee> employees = fetchEntityList(entManager, critBuilder,
-				employeeIds, Employee.class);
+		/*List<Employee> employees = fetchEntityList(entManager, critBuilder,
+				employeeIds, Employee.class);*/
 
 		tx.commit();
 		entManager.close();
-		return employees;
+		return null;//employees;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static List fetchEntityList(EntityManager entManager,
 			CriteriaBuilder critBuilder, List<Long> ids, Class entityClass) {
 		CriteriaQuery entityCrit = critBuilder.createQuery(entityClass);
-		Root emplsRoot = entityCrit.distinct(true).from(entityClass);
+		Root queryRoot = entityCrit.distinct(true).from(entityClass);
 		if (Employee.class.equals(entityClass)) {
-			entityCrit.where(critBuilder.isTrue(emplsRoot.get(Employee_.id).in(
+			entityCrit.where(critBuilder.isTrue(queryRoot.get(Employee_.id).in(
 					ids)));
 		} else if (Office.class.equals(entityClass)) {
-			entityCrit.where(critBuilder.isTrue(emplsRoot.get(Office_.id).in(
+			entityCrit.where(critBuilder.isTrue(queryRoot.get(Office_.id).in(
 					ids)));
 		}
 		TypedQuery entityQuery = entManager.createQuery(entityCrit);

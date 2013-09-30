@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.epam.ht.entity.city.City;
 
 @Entity
@@ -27,6 +30,7 @@ public class Address implements Serializable {
 	@Column(name = "ADDRESS")
 	private String address;
 
+	@Fetch(FetchMode.JOIN)
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CITY_ID")
 	private City city;

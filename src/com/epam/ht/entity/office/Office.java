@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 
 import com.epam.ht.entity.address.Address;
@@ -27,10 +29,12 @@ public class Office implements Serializable {
 	@Column(name = "OFFICE_ID")
 	private long id;
 
+	@Fetch(FetchMode.JOIN)
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
 
+	@Fetch(FetchMode.JOIN)
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ADDRESS_ID")
 	private Address address;

@@ -19,7 +19,7 @@ public class Position implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="position_id_generator")
 	@Column(name="position_id")
 	private long id;
-	
+
 	private String position;
 
 	public Position() {
