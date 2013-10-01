@@ -51,12 +51,13 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 
 		// get ids of employees on correspond page
 		int firstRowNumb = nEmplsPerPage * (pageNumber - 1) + 1;
-		List<Long> employeeIds = entManager.createNamedQuery("EmployeeIds")
+		List<Long> employeeIds = entManager
+				.createNamedQuery(CORRESPOND_EMPLOYEE_IDS)
 				.setFirstResult(firstRowNumb).setMaxResults(nEmplsPerPage)
 				.getResultList();
 		// get id of offices where first 100 employees work
 		List<Long> officeIds = entManager
-				.createNamedQuery("query.CorrespondOfficeIds")
+				.createNamedQuery(CORRESPOND_OFFICE_IDS)
 				.setParameter(EMPLOYEE_IDS_PARAM, employeeIds).getResultList();
 		CriteriaBuilder critBuilder = entManager.getCriteriaBuilder();
 		// load in session correspond offices

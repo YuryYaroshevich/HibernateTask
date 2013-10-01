@@ -23,7 +23,7 @@ import com.epam.ht.entity.office.Office;
 
 @Entity
 @NamedNativeQueries({
-		@NamedNativeQuery(name = "EmployeeIds", query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
+		@NamedNativeQuery(name = "query.CorrespondEmployeeIds", query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
 		@NamedNativeQuery(name = "query.CorrespondOfficeIds", query = "select distinct office_id from yra.office_employee"
 				+ " where employee_id in (:employee_ids)", resultSetMapping = "officeIds"),
 		@NamedNativeQuery(name = "query.EmployeesNumber", query = "select count(*) as employees_number"
