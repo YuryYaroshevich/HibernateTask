@@ -1,7 +1,6 @@
 package com.epam.ht.db.dao;
 
-import static com.epam.ht.constant.HTConstant.EMPLOYEES_NUMBER;
-import static com.epam.ht.constant.HTConstant.EMPLOYEE_IDS_PARAM;
+import static com.epam.ht.constant.HTConstant.*;
 import static com.epam.ht.resource.PropertyGetter.getProperty;
 
 import java.math.BigDecimal;
@@ -52,7 +51,7 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 
 		// get ids of employees on correspond page
 		int firstRowNumb = nEmplsPerPage * (pageNumber - 1) + 1;
-		List<Long> employeeIds = entManager.createNamedQuery("jpa.employeeIds")
+		List<Long> employeeIds = entManager.createNamedQuery("EmployeeIds")
 				.setFirstResult(firstRowNumb).setMaxResults(nEmplsPerPage)
 				.getResultList();
 		// get id of offices where first 100 employees work
@@ -63,12 +62,12 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// load in session correspond offices
 		fetchEntityList(entManager, critBuilder, officeIds, Office.class);
 		// get employees
-		/*List<Employee> employees = fetchEntityList(entManager, critBuilder,
-				employeeIds, Employee.class);*/
+		List<Employee> employees = fetchEntityList(entManager, critBuilder,
+				employeeIds, Employee.class);
 
 		tx.commit();
 		entManager.close();
-		return null;//employees;
+		return employees;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

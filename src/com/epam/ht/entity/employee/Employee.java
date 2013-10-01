@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,19 +15,15 @@ import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
 
 @Entity
 @NamedNativeQueries({
-		@NamedNativeQuery(name = "jpa.employeeIds", query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
+		@NamedNativeQuery(name = "EmployeeIds", query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
 		@NamedNativeQuery(name = "query.CorrespondOfficeIds", query = "select distinct office_id from yra.office_employee"
 				+ " where employee_id in (:employee_ids)", resultSetMapping = "officeIds"),
 		@NamedNativeQuery(name = "query.EmployeesNumber", query = "select count(*) as employees_number"
@@ -41,8 +35,13 @@ public class Employee implements Serializable {
 	private static final long serialVersionUID = -8246951586123338991L;
 
 	@Id
-	@SequenceGenerator(name = "empl_id_generator", sequenceName = "EMPLOYEE_ID_SEQ")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "empl_id_generator")
+	/*
+	 * @SequenceGenerator(name = "empl_id_generator", sequenceName =
+	 * "EMPLOYEE_ID_SEQ")
+	 * 
+	 * @GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
+	 * "empl_id_generator")
+	 */
 	@Column(name = "EMPLOYEE_ID")
 	private long id;
 
@@ -52,12 +51,10 @@ public class Employee implements Serializable {
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
-	@Fetch(FetchMode.JOIN)
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "EMPLOYEE_ID")
+	@JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false)
 	private Address address;
 
-	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch = FetchType.EAGER)
 	@MapKeyJoinColumn(name = "OFFICE_ID")
 	@JoinTable(name = "OFFICE_EMPLOYEE", joinColumns = @JoinColumn(name = "EMPLOYEE_ID"), inverseJoinColumns = @JoinColumn(name = "POSITION_ID"))
