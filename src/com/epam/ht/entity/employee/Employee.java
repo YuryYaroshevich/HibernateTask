@@ -1,5 +1,9 @@
 package com.epam.ht.entity.employee;
 
+import static com.epam.ht.constant.HTConstant.CORRESPOND_EMPLOYEE_IDS;
+import static com.epam.ht.constant.HTConstant.CORRESPOND_OFFICE_IDS;
+import static com.epam.ht.constant.HTConstant.EMPLOYEES_NUMBER;
+
 import java.io.Serializable;
 import java.util.Map;
 
@@ -21,12 +25,14 @@ import javax.persistence.SqlResultSetMappings;
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
 
+import static com.epam.ht.constant.HTConstant.*;
+
 @Entity
 @NamedNativeQueries({
-		@NamedNativeQuery(name = "query.CorrespondEmployeeIds", query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
-		@NamedNativeQuery(name = "query.CorrespondOfficeIds", query = "select distinct office_id from yra.office_employee"
-				+ " where employee_id in (:employee_ids)", resultSetMapping = "officeIds"),
-		@NamedNativeQuery(name = "query.EmployeesNumber", query = "select count(*) as employees_number"
+		@NamedNativeQuery(name = CORRESPOND_EMPLOYEE_IDS, query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
+		@NamedNativeQuery(name = CORRESPOND_OFFICE_IDS, query = "select distinct office_id from yra.office_employee"
+				+ " where employee_id in #employee_ids", resultSetMapping = "officeIds"),
+		@NamedNativeQuery(name = EMPLOYEES_NUMBER, query = "select count(*) as employees_number"
 				+ " from yra.employee") })
 @SqlResultSetMappings({
 		@SqlResultSetMapping(name = "employeeIds", columns = @ColumnResult(name = "employee_id")),
@@ -35,13 +41,6 @@ public class Employee implements Serializable {
 	private static final long serialVersionUID = -8246951586123338991L;
 
 	@Id
-	/*
-	 * @SequenceGenerator(name = "empl_id_generator", sequenceName =
-	 * "EMPLOYEE_ID_SEQ")
-	 * 
-	 * @GeneratedValue(strategy = GenerationType.SEQUENCE, generator =
-	 * "empl_id_generator")
-	 */
 	@Column(name = "EMPLOYEE_ID")
 	private long id;
 

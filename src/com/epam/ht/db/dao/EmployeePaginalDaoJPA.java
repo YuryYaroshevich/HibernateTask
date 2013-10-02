@@ -3,7 +3,6 @@ package com.epam.ht.db.dao;
 import static com.epam.ht.constant.HTConstant.CORRESPOND_EMPLOYEE_IDS;
 import static com.epam.ht.constant.HTConstant.CORRESPOND_OFFICE_IDS;
 import static com.epam.ht.constant.HTConstant.EMPLOYEES_NUMBER;
-import static com.epam.ht.constant.HTConstant.EMPLOYEE_IDS_PARAM;
 import static com.epam.ht.resource.PropertyGetter.getProperty;
 
 import java.math.BigDecimal;
@@ -59,9 +58,18 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 				.setFirstResult(firstRowNumb).setMaxResults(nEmplsPerPage)
 				.getResultList();
 		// get id of offices where first 100 employees work
+
 		List<Long> officeIds = entManager
 				.createNamedQuery(CORRESPOND_OFFICE_IDS)
 				.setParameter("employee_ids", employeeIds).getResultList();
+
+		/*
+		 * entManager.createNativeQuery(
+		 * "select distinct office_id from yra.office_employee" +
+		 * " where employee_id in (89988,89990,89992)").getResultList();
+		 */
+
+
 		CriteriaBuilder critBuilder = entManager.getCriteriaBuilder();
 		// load in session correspond offices
 		fetchEntityList(entManager, critBuilder, officeIds, Office.class);
