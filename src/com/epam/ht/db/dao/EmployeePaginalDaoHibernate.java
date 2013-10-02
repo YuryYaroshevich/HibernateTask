@@ -16,7 +16,9 @@ import static com.epam.ht.constant.HTConstant.*;
 final class EmployeePaginalDaoHibernate implements EmployeePaginalDao {
 	private static EmployeePaginalDao dao = new EmployeePaginalDaoHibernate();
 
+	// parameter names for queries
 	private static final String ID_PARAM = "id";
+	public static final String EMPLOYEE_IDS_PARAM = "employee_ids";
 
 	private static SessionFactory sessionFactory;
 	static {

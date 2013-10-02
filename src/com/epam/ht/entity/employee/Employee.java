@@ -25,13 +25,11 @@ import javax.persistence.SqlResultSetMappings;
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
 
-import static com.epam.ht.constant.HTConstant.*;
-
 @Entity
 @NamedNativeQueries({
 		@NamedNativeQuery(name = CORRESPOND_EMPLOYEE_IDS, query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
 		@NamedNativeQuery(name = CORRESPOND_OFFICE_IDS, query = "select distinct office_id from yra.office_employee"
-				+ " where employee_id in #employee_ids", resultSetMapping = "officeIds"),
+				+ " where employee_id in (:ids)", resultSetMapping = "officeIds"),
 		@NamedNativeQuery(name = EMPLOYEES_NUMBER, query = "select count(*) as employees_number"
 				+ " from yra.employee") })
 @SqlResultSetMappings({

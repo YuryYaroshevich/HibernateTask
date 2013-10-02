@@ -1,8 +1,6 @@
 package com.epam.ht.db.dao;
 
-import static com.epam.ht.constant.HTConstant.CORRESPOND_EMPLOYEE_IDS;
-import static com.epam.ht.constant.HTConstant.CORRESPOND_OFFICE_IDS;
-import static com.epam.ht.constant.HTConstant.EMPLOYEES_NUMBER;
+import static com.epam.ht.constant.HTConstant.*;
 import static com.epam.ht.resource.PropertyGetter.getProperty;
 
 import java.math.BigDecimal;
@@ -28,6 +26,7 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 
 	private static final String PERSISTENCE_UNIT_NAME = "persistence.unit.name";
 
+	private static final String EMPLOYEE_IDS_PARAM = "#employee_ids";
 	@PersistenceUnit
 	private static final EntityManagerFactory entManagerFactory = Persistence
 			.createEntityManagerFactory(getProperty(PERSISTENCE_UNIT_NAME));
@@ -58,18 +57,10 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 				.setFirstResult(firstRowNumb).setMaxResults(nEmplsPerPage)
 				.getResultList();
 		// get id of offices where first 100 employees work
-
 		List<Long> officeIds = entManager
 				.createNamedQuery(CORRESPOND_OFFICE_IDS)
-				.setParameter("employee_ids", employeeIds).getResultList();
-
-		/*
-		 * entManager.createNativeQuery(
-		 * "select distinct office_id from yra.office_employee" +
-		 * " where employee_id in (89988,89990,89992)").getResultList();
-		 */
-
-
+				.setParameter("ids", idListToString(employeeIds))
+				.getResultList();
 		CriteriaBuilder critBuilder = entManager.getCriteriaBuilder();
 		// load in session correspond offices
 		fetchEntityList(entManager, critBuilder, officeIds, Office.class);
@@ -80,6 +71,19 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		tx.commit();
 		entManager.close();
 		return employees;
+	}
+
+	private static String idListToString(List<Long> ids) {
+		StringBuilder query = new StringBuilder();
+		int len = ids.size();
+		for (int i = 0; i < len; i++) {
+			query.append(ids.get(i));
+			if (i < len - 1) {
+				query.append(",");
+			}
+		}
+		query.append(")");
+		return query.toString();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
