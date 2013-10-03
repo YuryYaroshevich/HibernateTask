@@ -22,6 +22,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
 
@@ -29,7 +32,7 @@ import com.epam.ht.entity.office.Office;
 @NamedNativeQueries({
 		@NamedNativeQuery(name = CORRESPOND_EMPLOYEE_IDS, query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
 		@NamedNativeQuery(name = CORRESPOND_OFFICE_IDS, query = "select distinct office_id from yra.office_employee"
-				+ " where employee_id in (:ids)", resultSetMapping = "officeIds"),
+				+ " where employee_id in (:employee_ids)", resultSetMapping = "officeIds"),
 		@NamedNativeQuery(name = EMPLOYEES_NUMBER, query = "select count(*) as employees_number"
 				+ " from yra.employee") })
 @SqlResultSetMappings({
@@ -48,10 +51,12 @@ public class Employee implements Serializable {
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
+	@Fetch(FetchMode.JOIN)
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false)
 	private Address address;
 
+	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch = FetchType.EAGER)
 	@MapKeyJoinColumn(name = "OFFICE_ID")
 	@JoinTable(name = "OFFICE_EMPLOYEE", joinColumns = @JoinColumn(name = "EMPLOYEE_ID"), inverseJoinColumns = @JoinColumn(name = "POSITION_ID"))

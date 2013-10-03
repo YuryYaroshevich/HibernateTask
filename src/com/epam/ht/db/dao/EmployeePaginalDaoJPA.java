@@ -26,7 +26,6 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 
 	private static final String PERSISTENCE_UNIT_NAME = "persistence.unit.name";
 
-	private static final String EMPLOYEE_IDS_PARAM = "#employee_ids";
 	@PersistenceUnit
 	private static final EntityManagerFactory entManagerFactory = Persistence
 			.createEntityManagerFactory(getProperty(PERSISTENCE_UNIT_NAME));
@@ -59,21 +58,21 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// get id of offices where first 100 employees work
 		List<Long> officeIds = entManager
 				.createNamedQuery(CORRESPOND_OFFICE_IDS)
-				.setParameter("ids", idListToString(employeeIds))
+				.setParameter(EMPLOYEE_IDS_PARAM, employeeIds)
 				.getResultList();
 		CriteriaBuilder critBuilder = entManager.getCriteriaBuilder();
 		// load in session correspond offices
 		fetchEntityList(entManager, critBuilder, officeIds, Office.class);
 		// get employees
-		List<Employee> employees = fetchEntityList(entManager, critBuilder,
-				employeeIds, Employee.class);
+		//List<Employee> employees = fetchEntityList(entManager, critBuilder,
+		//		employeeIds, Employee.class);
 
 		tx.commit();
 		entManager.close();
-		return employees;
+		return null;
 	}
 
-	private static String idListToString(List<Long> ids) {
+	/*private static String idListToString(List<Long> ids) {
 		StringBuilder query = new StringBuilder();
 		int len = ids.size();
 		for (int i = 0; i < len; i++) {
@@ -82,9 +81,10 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 				query.append(",");
 			}
 		}
-		query.append(")");
+		//query.append(")");
+		System.out.println();
 		return query.toString();
-	}
+	}*/
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static List fetchEntityList(EntityManager entManager,
