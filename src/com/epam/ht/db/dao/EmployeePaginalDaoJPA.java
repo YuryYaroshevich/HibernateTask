@@ -1,6 +1,9 @@
 package com.epam.ht.db.dao;
 
-import static com.epam.ht.constant.HTConstant.*;
+import static com.epam.ht.constant.HTConstant.CORRESPOND_EMPLOYEE_IDS;
+import static com.epam.ht.constant.HTConstant.CORRESPOND_OFFICE_IDS;
+import static com.epam.ht.constant.HTConstant.EMPLOYEES_NUMBER;
+import static com.epam.ht.constant.HTConstant.EMPLOYEE_IDS_PARAM;
 import static com.epam.ht.resource.PropertyGetter.getProperty;
 
 import java.math.BigDecimal;
@@ -14,10 +17,11 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
+import com.epam.ht.entity.city.City;
 import com.epam.ht.entity.employee.Employee;
-import com.epam.ht.entity.employee.Employee_;
 import com.epam.ht.entity.office.Office;
 import com.epam.ht.entity.office.Office_;
 
@@ -58,48 +62,33 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// get id of offices where first 100 employees work
 		List<Long> officeIds = entManager
 				.createNamedQuery(CORRESPOND_OFFICE_IDS)
-				.setParameter(EMPLOYEE_IDS_PARAM, employeeIds)
-				.getResultList();
+				.setParameter(EMPLOYEE_IDS_PARAM, employeeIds).getResultList();
 		CriteriaBuilder critBuilder = entManager.getCriteriaBuilder();
+		//entManager.find(Employee.class, new Long(89988));
+		//entManager.find(Office.class, new Long(37362));
 		// load in session correspond offices
-		fetchEntityList(entManager, critBuilder, officeIds, Office.class);
+		loadOfficeList(entManager, critBuilder, officeIds);
 		// get employees
-		//List<Employee> employees = fetchEntityList(entManager, critBuilder,
-		//		employeeIds, Employee.class);
+		// List<Employee> employees = fetchEntityList(entManager, critBuilder,
+		// employeeIds, Employee.class);
 
 		tx.commit();
 		entManager.close();
 		return null;
 	}
 
-	/*private static String idListToString(List<Long> ids) {
-		StringBuilder query = new StringBuilder();
-		int len = ids.size();
-		for (int i = 0; i < len; i++) {
-			query.append(ids.get(i));
-			if (i < len - 1) {
-				query.append(",");
-			}
-		}
-		//query.append(")");
-		System.out.println();
-		return query.toString();
-	}*/
+	private static List<Office> loadOfficeList(EntityManager entManager,
+			CriteriaBuilder critBuilder, List<Long> ids) {
+		CriteriaQuery<Office> officeCrit = critBuilder.createQuery(Office.class);
+		Root<Office> queryRoot = officeCrit.distinct(true).from(Office.class);
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static List fetchEntityList(EntityManager entManager,
-			CriteriaBuilder critBuilder, List<Long> ids, Class entityClass) {
-		CriteriaQuery entityCrit = critBuilder.createQuery(entityClass);
-		Root queryRoot = entityCrit.distinct(true).from(entityClass);
-		if (Employee.class.equals(entityClass)) {
-			entityCrit.where(critBuilder.isTrue(queryRoot.get(Employee_.id).in(
-					ids)));
-		} else if (Office.class.equals(entityClass)) {
-			entityCrit.where(critBuilder.isTrue(queryRoot.get(Office_.id).in(
-					ids)));
-		}
-		TypedQuery entityQuery = entManager.createQuery(entityCrit);
-		return entityQuery.getResultList();
+		//queryRoot.fetch(Office_.address, JoinType.INNER);
+		//queryRoot.fetch(Office_.company, JoinType.INNER);
+		//queryRoot.fetch("address.city", JoinType.INNER);
+		
+		officeCrit.where(queryRoot.get(Office_.id).in(ids));
+		TypedQuery<Office> query = entManager.createQuery(officeCrit);
+		return query.getResultList();
 	}
 
 	@Override

@@ -30,12 +30,12 @@ public class Office implements Serializable {
 	private long id;
 
 	@Fetch(FetchMode.JOIN)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional = false)//, fetch = FetchType.EAGER)
 	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
 
 	@Fetch(FetchMode.JOIN)
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "ADDRESS_ID")
 	private Address address;
 
@@ -49,8 +49,7 @@ public class Office implements Serializable {
 	public Address getAddress() {
 		return address;
 	}
-	
-	
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
@@ -71,12 +70,10 @@ public class Office implements Serializable {
 		this.id = officeId;
 	}
 
-	
 	public Company getCompany() {
 		return company;
 	}
 
-	
 	public void setCompany(Company company) {
 		this.company = company;
 	}

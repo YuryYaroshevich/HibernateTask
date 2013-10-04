@@ -15,7 +15,7 @@ import com.epam.ht.command.CommandCreator;
 import com.epam.ht.db.dao.EmployeePaginalDao;
 import com.epam.ht.db.dao.EmployeePaginalDaoFactory;
 
-public class EmployeeListServlet extends HttpServlet {
+public final class EmployeeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1529606092637198325L;
 
 	// key for getting parameter from context
