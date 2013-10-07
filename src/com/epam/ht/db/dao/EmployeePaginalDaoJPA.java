@@ -17,10 +17,8 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
-import com.epam.ht.entity.city.City;
 import com.epam.ht.entity.employee.Employee;
 import com.epam.ht.entity.office.Office;
 import com.epam.ht.entity.office.Office_;
