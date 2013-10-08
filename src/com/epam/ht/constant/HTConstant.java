@@ -26,5 +26,5 @@ public final class HTConstant {
 	public static final String CORRESPOND_OFFICE_IDS = "query.CorrespondOfficeIds";
 	public static final String EMPLOYEES_NUMBER = "query.EmployeesNumber";
 	
-	public static final String EMPLOYEE_IDS_PARAM = "employee_ids";
+	public static final String EMPLOYEE_IDS_PARAM = "#employee_ids";
 }
