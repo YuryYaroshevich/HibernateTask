@@ -67,12 +67,12 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// load in session correspond offices
 		loadOfficeList(entManager, critBuilder, officeIds);
 		// get employees
-		//List<Employee> employees = loadEmployeeList(entManager, critBuilder,
-		//		emplIds);
+		List<Employee> employees = loadEmployeeList(entManager, critBuilder,
+				emplIds);
 
 		tx.commit();
 		entManager.close();
-		return null;
+		return employees;
 	}
 
 	private static List<Office> loadOfficeList(EntityManager entManager,

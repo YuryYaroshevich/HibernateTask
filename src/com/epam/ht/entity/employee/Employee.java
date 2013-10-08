@@ -56,7 +56,7 @@ public class Employee implements Serializable {
 	@JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false)
 	private Address address;
 
-	@Fetch(FetchMode.JOIN)
+	@Fetch(FetchMode.SUBSELECT)
 	@ManyToMany(fetch = FetchType.EAGER)
 	@MapKeyJoinColumn(name = "OFFICE_ID")
 	@JoinTable(name = "OFFICE_EMPLOYEE", joinColumns = @JoinColumn(name = "EMPLOYEE_ID"), inverseJoinColumns = @JoinColumn(name = "POSITION_ID"))
