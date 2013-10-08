@@ -17,6 +17,7 @@ import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import com.epam.ht.entity.employee.Employee;
@@ -80,8 +81,8 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		CriteriaQuery<Office> officeCrit = critBuilder.createQuery(Office.class);
 		Root<Office> queryRoot = officeCrit.distinct(true).from(Office.class);
 
-		//queryRoot.fetch(Office_.address, JoinType.INNER);
-		//queryRoot.fetch(Office_.company, JoinType.INNER);
+		queryRoot.fetch("address");
+		queryRoot.fetch("company");
 		//queryRoot.fetch("address.city", JoinType.INNER);
 		
 		officeCrit.where(queryRoot.get(Office_.id).in(ids));
