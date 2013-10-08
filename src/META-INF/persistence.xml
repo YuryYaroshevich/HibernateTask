@@ -5,30 +5,28 @@
 	version="2.0">
 	<persistence-unit name="persistenceUnit"
 		transaction-type="RESOURCE_LOCAL">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<class>com.epam.ht.entity.address.Address</class>
-		<class>com.epam.ht.entity.city.City</class>
-		<class>com.epam.ht.entity.country.Country</class>
-		<class>com.epam.ht.entity.company.Company</class>
-		<class>com.epam.ht.entity.employee.Employee</class>
-		<class>com.epam.ht.entity.employee.Position</class>
-		<class>com.epam.ht.entity.office.Office</class>
+		<!-- <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> 
+			<class>com.epam.ht.entity.address.Address</class> <class>com.epam.ht.entity.city.City</class> 
+			<class>com.epam.ht.entity.country.Country</class> <class>com.epam.ht.entity.company.Company</class> 
+			<class>com.epam.ht.entity.employee.Employee</class> <class>com.epam.ht.entity.employee.Position</class> 
+			<class>com.epam.ht.entity.office.Office</class> <properties> <property name="javax.persistence.jdbc.driver" 
+			value="oracle.jdbc.driver.OracleDriver" /> <property name="javax.persistence.jdbc.user" 
+			value="yra" /> <property name="javax.persistence.jdbc.password" value="1234" 
+			/> <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe" 
+			/> <property name="eclipselink.logging.level.sql" value="FINE" /> </properties> -->
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" />
 			<property name="javax.persistence.jdbc.user" value="yra" />
 			<property name="javax.persistence.jdbc.password" value="1234" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-			<property name="eclipselink.logging.level.sql" value="FINE" />
+			<property name="javax.persistence.validation.mode" value="none" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.archive.autodetection" value="class" />
+			<property name="hibernate.use_outer_joins" value="true" />
+			<property name="hibernate.max_fetch_depth" value="10" />
 		</properties>
-		<!-- <provider>org.hibernate.ejb.HibernatePersistence</provider> <properties> 
-			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver" 
-			/> <property name="javax.persistence.jdbc.user" value="yra" /> <property 
-			name="javax.persistence.jdbc.password" value="1234" /> <property name="javax.persistence.jdbc.url" 
-			value="jdbc:oracle:thin:@localhost:1521:xe" /> <property name="javax.persistence.validation.mode" 
-			value="none" /> <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" 
-			/> <property name="hibernate.show_sql" value="true" /> <property name="hibernate.archive.autodetection" 
-			value="class" /> <property name="hibernate.use_outer_joins" value="true" 
-			/> <property name="hibernate.max_fetch_depth" value="10" /> </properties> -->
 		<!-- <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> 
 			<class>com.epam.ht.entity.address.Address</class> <class>com.epam.ht.entity.city.City</class> 
 			<class>com.epam.ht.entity.country.Country</class> <class>com.epam.ht.entity.company.Company</class> 

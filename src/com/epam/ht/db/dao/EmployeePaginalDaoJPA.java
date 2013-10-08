@@ -18,8 +18,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.eclipse.persistence.config.QueryHints;
-
 import com.epam.ht.entity.employee.Employee;
 import com.epam.ht.entity.employee.Employee_;
 import com.epam.ht.entity.office.Office;
@@ -69,12 +67,12 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 		// load in session correspond offices
 		loadOfficeList(entManager, critBuilder, officeIds);
 		// get employees
-		List<Employee> employees = loadEmployeeList(entManager, critBuilder,
-				emplIds);
+		//List<Employee> employees = loadEmployeeList(entManager, critBuilder,
+		//		emplIds);
 
 		tx.commit();
 		entManager.close();
-		return employees;
+		return null;
 	}
 
 	private static List<Office> loadOfficeList(EntityManager entManager,

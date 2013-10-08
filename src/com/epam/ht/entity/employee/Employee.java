@@ -22,8 +22,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
@@ -51,12 +51,12 @@ public class Employee implements Serializable {
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
-	@JoinFetch(JoinFetchType.INNER)
+	@Fetch(FetchMode.JOIN)
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false)
 	private Address address;
 
-	@JoinFetch(JoinFetchType.INNER)
+	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch = FetchType.EAGER)
 	@MapKeyJoinColumn(name = "OFFICE_ID")
 	@JoinTable(name = "OFFICE_EMPLOYEE", joinColumns = @JoinColumn(name = "EMPLOYEE_ID"), inverseJoinColumns = @JoinColumn(name = "POSITION_ID"))

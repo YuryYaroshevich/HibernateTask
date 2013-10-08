@@ -12,8 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Formula;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.company.Company;
@@ -28,19 +30,20 @@ public class Office implements Serializable {
 	@Column(name = "OFFICE_ID")
 	private long id;
 
-	@JoinFetch(JoinFetchType.INNER)
+	@Fetch(FetchMode.JOIN)
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
 
-	@JoinFetch(JoinFetchType.INNER)
+	@Fetch(FetchMode.SELECT)
+	@BatchSize(size = 100)
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "ADDRESS_ID")
 	private Address address;
 
-	/*@Column(name = "(select count(*) from yra.OFFICE_EMPLOYEE oe"
-			+ " where oe.office_id = t1.office_id)")
-	private int numberOfEmployees;*/
+	@Formula("(select count(*) from yra.OFFICE_EMPLOYEE oe"
+			+ " where oe.office_id = office_id)")
+	private int numberOfEmployees;
 
 	public Office() {
 	}
@@ -53,13 +56,13 @@ public class Office implements Serializable {
 		this.address = address;
 	}
 
-	/*public int getNumberOfEmployees() {
+	public int getNumberOfEmployees() {
 		return numberOfEmployees;
 	}
 
 	public void setNumberOfEmployees(int numberOfEmployees) {
 		this.numberOfEmployees = numberOfEmployees;
-	}*/
+	}
 
 	public long getId() {
 		return id;
@@ -84,7 +87,7 @@ public class Office implements Serializable {
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((company == null) ? 0 : company.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result;// + numberOfEmployees;
+		result = prime * result + numberOfEmployees;
 		return result;
 	}
 
@@ -114,9 +117,9 @@ public class Office implements Serializable {
 		if (id != other.id) {
 			return false;
 		}
-		/*if (numberOfEmployees != other.numberOfEmployees) {
+		if (numberOfEmployees != other.numberOfEmployees) {
 			return false;
-		}*/
+		}
 		return true;
 	}
 }
