@@ -72,7 +72,7 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 
 		tx.commit();
 		entManager.close();
-		return employees;
+		return null;// employees;
 	}
 
 	private static List<Office> loadOfficeList(EntityManager entManager,

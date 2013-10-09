@@ -34,7 +34,7 @@ public class Office implements Serializable {
 	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
 
-	@Fetch(FetchMode.SELECT)
+	@Fetch(FetchMode.JOIN)
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "ADDRESS_ID")
 	private Address address;

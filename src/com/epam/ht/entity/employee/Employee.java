@@ -52,7 +52,7 @@ public class Employee implements Serializable {
 	private String lastName;
 
 	@Fetch(FetchMode.JOIN)
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false)
 	private Address address;
 
