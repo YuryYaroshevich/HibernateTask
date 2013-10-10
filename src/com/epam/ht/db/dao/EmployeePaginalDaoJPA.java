@@ -18,6 +18,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.eclipse.persistence.config.QueryHints;
+
 import com.epam.ht.entity.employee.Employee;
 import com.epam.ht.entity.employee.Employee_;
 import com.epam.ht.entity.office.Office;
@@ -27,7 +29,10 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 	private static final EmployeePaginalDao dao = new EmployeePaginalDaoJPA();
 
 	private static final String PERSISTENCE_UNIT_NAME = "persistence.unit.name";
-
+	
+	private static final String JOIN_HINT_EMPLOYEE = "employee.address.city.country";
+	private static final String JOIN_HINT_OFFICE = "office.address.city.country";
+ 
 	@PersistenceUnit
 	private static final EntityManagerFactory entManagerFactory = Persistence
 			.createEntityManagerFactory(getProperty(PERSISTENCE_UNIT_NAME));
@@ -65,14 +70,15 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 				.getResultList();
 		CriteriaBuilder critBuilder = entManager.getCriteriaBuilder();
 		// load in session correspond offices
-		loadOfficeList(entManager, critBuilder, officeIds);
+		List<Office> offs = loadOfficeList(entManager, critBuilder, officeIds);
+		System.out.println(offs.get(0).getNumberOfEmployees()+"!!!!!!!!!!!!!!!!!!!!!!!!!!11");
 		// get employees
-		List<Employee> employees = loadEmployeeList(entManager, critBuilder,
-				emplIds);
+		//List<Employee> employees = loadEmployeeList(entManager, critBuilder,
+			//	emplIds);
 
 		tx.commit();
 		entManager.close();
-		return null;// employees;
+		return null;
 	}
 
 	private static List<Office> loadOfficeList(EntityManager entManager,
@@ -81,19 +87,9 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 				.createQuery(Office.class);
 		Root<Office> queryRoot = officeCrit.distinct(true).from(Office.class);
 
-
-		queryRoot.fetch("address");
-		queryRoot.fetch("company");
-		//queryRoot.fetch("address.city", JoinType.INNER);
-
-		// queryRoot.fetch(Office_.address, JoinType.INNER);
-		// queryRoot.fetch(Office_.company, JoinType.INNER);
-		// queryRoot.fetch("address.city", JoinType.INNER);
-
-		
 		officeCrit.where(queryRoot.get(Office_.id).in(ids));
 		TypedQuery<Office> query = entManager.createQuery(officeCrit);
-		//query.setHint("address.city", QueryHints.BATCH);
+		query.setHint(QueryHints.FETCH, JOIN_HINT_OFFICE);
 		return query.getResultList();
 	}
 
@@ -105,6 +101,7 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 
 		emplCrit.where(queryRoot.get(Employee_.id).in(ids));
 		TypedQuery<Employee> query = entManager.createQuery(emplCrit);
+		query.setHint(QueryHints.FETCH, JOIN_HINT_EMPLOYEE);
 		return query.getResultList();
 	}
 

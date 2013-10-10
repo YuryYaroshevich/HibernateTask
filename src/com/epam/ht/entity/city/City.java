@@ -12,14 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 
 import com.epam.ht.entity.country.Country;
 
 @Entity
-@BatchSize(size = 200)
 public class City implements Serializable {
 	private static final long serialVersionUID = 5958802680632997798L;
 
@@ -32,7 +30,7 @@ public class City implements Serializable {
 	@Column(name = "CITY_NAME")
 	private String name;
 
-	@Fetch(FetchMode.JOIN)
+	@JoinFetch(JoinFetchType.OUTER)
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "COUNTRY_ID")
 	private Country country;
