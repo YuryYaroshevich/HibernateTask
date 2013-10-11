@@ -12,9 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
-
 import com.epam.ht.entity.city.City;
 
 @Entity
@@ -30,7 +27,7 @@ public class Address implements Serializable {
 	@Column(name = "ADDRESS")
 	private String address;
 
-	@JoinFetch(JoinFetchType.OUTER)
+	//@JoinFetch(JoinFetchType.OUTER)
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CITY_ID")
 	private City city;

@@ -1,30 +1,20 @@
 package com.epam.ht.entity.office;
 
 import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
+import org.hibernate.annotations.Formula;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.company.Company;
-import com.epam.ht.entity.employee.Employee;
-import com.epam.ht.entity.employee.Position;
 
 @Entity
 public class Office implements Serializable {
@@ -36,29 +26,19 @@ public class Office implements Serializable {
 	@Column(name = "OFFICE_ID")
 	private long id;
 
-	@JoinFetch(JoinFetchType.OUTER)
-	@ManyToOne(fetch = FetchType.EAGER)
+	//@JoinFetch(JoinFetchType.OUTER)
+	@ManyToOne//(fetch = FetchType.EAGER)
 	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
 
-	@JoinFetch(JoinFetchType.OUTER)
-	@ManyToOne(fetch = FetchType.EAGER)
+	//@JoinFetch(JoinFetchType.OUTER)
+	@ManyToOne//(fetch = FetchType.EAGER)
 	@JoinColumn(name = "ADDRESS_ID")
 	private Address address;
 
-	/*
-	 * @Formula("(select count(*) from yra.OFFICE_EMPLOYEE oe" +
-	 * " where oe.office_id = office_id)")
-	 */
-	@Transient
+	@Formula("(select count(*) from yra.OFFICE_EMPLOYEE oe"
+			+ " where oe.office_id = office_id)")
 	private int numberOfEmployees;
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@MapKeyJoinColumn(name = "EMPLOYEE_ID")
-	@JoinTable(name = "OFFICE_EMPLOYEE", joinColumns = @JoinColumn(name = "OFFICE_ID"),
-	        inverseJoinColumns = @JoinColumn(name = "POSITION_ID"))
-	private Map<Employee, Position> employees;
-
 
 	public Office() {
 	}
@@ -72,9 +52,6 @@ public class Office implements Serializable {
 	}
 
 	public int getNumberOfEmployees() {
-		if (numberOfEmployees == 0) {
-			numberOfEmployees = employees.size();
-		}
 		return numberOfEmployees;
 	}
 
@@ -96,14 +73,6 @@ public class Office implements Serializable {
 
 	public void setCompany(Company company) {
 		this.company = company;
-	}
-	
-	public Map<Employee, Position> getEmployees() {
-		return employees;
-	}
-
-	public void setEmployees(Map<Employee, Position> employees) {
-		this.employees = employees;
 	}
 
 	@Override

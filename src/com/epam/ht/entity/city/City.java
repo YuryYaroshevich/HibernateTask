@@ -12,9 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
-
 import com.epam.ht.entity.country.Country;
 
 @Entity
@@ -30,7 +27,7 @@ public class City implements Serializable {
 	@Column(name = "CITY_NAME")
 	private String name;
 
-	@JoinFetch(JoinFetchType.OUTER)
+	//@JoinFetch(JoinFetchType.OUTER)
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "COUNTRY_ID")
 	private Country country;

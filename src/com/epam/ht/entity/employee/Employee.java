@@ -1,8 +1,12 @@
 package com.epam.ht.entity.employee;
 
 import static com.epam.ht.constant.HTConstant.CORRESPOND_EMPLOYEE_IDS;
+import static com.epam.ht.constant.HTConstant.CORRESPOND_OFFICES;
 import static com.epam.ht.constant.HTConstant.CORRESPOND_OFFICE_IDS;
 import static com.epam.ht.constant.HTConstant.EMPLOYEES_NUMBER;
+import static com.epam.ht.constant.HTConstant.EMPLOYEE_IDS_PARAM;
+import static com.epam.ht.constant.HTConstant.EMPLOYEE_LIST;
+import static com.epam.ht.constant.HTConstant.OFFICE_IDS_PARAM;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -18,23 +22,35 @@ import javax.persistence.ManyToMany;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedNativeQueries;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
-
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
 
 import com.epam.ht.entity.address.Address;
 import com.epam.ht.entity.office.Office;
 
 @Entity
+@NamedQueries({
+		@NamedQuery(name = EMPLOYEE_LIST, query = "from Employee emp inner join fetch emp.jobs"
+				+ " inner join fetch emp.address addr"
+				+ " inner join fetch addr.city c"
+				+ " inner join fetch c.country"
+				+ " where emp.id in (:"	+ EMPLOYEE_IDS_PARAM + ")"),
+		@NamedQuery(name = CORRESPOND_OFFICES, query = "from Office o inner join fetch o.company"
+				+ " inner join fetch o.address addr"
+				+ " inner join fetch addr.city c"
+				+ " inner join fetch c.country"
+				+ " where o.id in (:" + OFFICE_IDS_PARAM + ")") })
 @NamedNativeQueries({
-		@NamedNativeQuery(name = CORRESPOND_EMPLOYEE_IDS, query = "select employee_id from yra.employee", resultSetMapping = "employeeIds"),
+		@NamedNativeQuery(name = CORRESPOND_EMPLOYEE_IDS, query = "select employee_id from yra.employee", 
+				resultClass = Long.class, resultSetMapping = "employeeIds"),
 		@NamedNativeQuery(name = CORRESPOND_OFFICE_IDS, query = "select distinct office_id from yra.office_employee"
-				+ " where employee_id between ?1 and ?2", resultSetMapping = "officeIds"),
+				+ " where employee_id in (:" + EMPLOYEE_IDS_PARAM + ")", 
+				resultClass = Long.class,	resultSetMapping = "officeIds"),
 		@NamedNativeQuery(name = EMPLOYEES_NUMBER, query = "select count(*) as employees_number"
-				+ " from yra.employee") })
+				+ " from yra.employee")})
 @SqlResultSetMappings({
 		@SqlResultSetMapping(name = "employeeIds", columns = @ColumnResult(name = "employee_id")),
 		@SqlResultSetMapping(name = "officeIds", columns = @ColumnResult(name = "office_id")) })
@@ -51,16 +67,16 @@ public class Employee implements Serializable {
 	@Column(name = "LAST_NAME")
 	private String lastName;
 
-	@JoinFetch(JoinFetchType.OUTER)
+	// @JoinFetch(JoinFetchType.OUTER)
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "EMPLOYEE_ID", insertable = false, updatable = false)
 	private Address address;
 
-	@JoinFetch(JoinFetchType.OUTER)
-	@ManyToMany//(fetch = FetchType.EAGER)
+	// @JoinFetch(JoinFetchType.OUTER)
+	@ManyToMany
+	// (fetch = FetchType.EAGER)
 	@MapKeyJoinColumn(name = "OFFICE_ID")
-	@JoinTable(name = "OFFICE_EMPLOYEE", joinColumns = @JoinColumn(name = "EMPLOYEE_ID"),
-	        inverseJoinColumns = @JoinColumn(name = "POSITION_ID"))
+	@JoinTable(name = "OFFICE_EMPLOYEE", joinColumns = @JoinColumn(name = "EMPLOYEE_ID"), inverseJoinColumns = @JoinColumn(name = "POSITION_ID"))
 	private Map<Office, Position> jobs;
 
 	public Employee() {
