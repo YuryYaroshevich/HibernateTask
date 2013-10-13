@@ -32,10 +32,10 @@ span.error-msg {
 	margin-left: 10px;
 }
 
-input[name="nEmplsPerPage"] {
+input[name="numOfEntsPerPage"] {
 	margin-left: 10px;
 }
 
-input[name="pageIndex"] {
-	margin-left: 87px;
+input[name="currentIndex"] {
+	margin-left: 64px;
 }

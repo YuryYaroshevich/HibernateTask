@@ -77,7 +77,6 @@ final class EmployeePaginalDaoJPA implements EmployeePaginalDao {
 				.setParameter(EMPLOYEE_IDS_PARAM,
 						castBigDecimalListToLongList(employeeIds))
 				.getResultList();
-		System.out.println(employees.get(0).getJobs().size());
 
 		tx.commit();
 		entManager.close();

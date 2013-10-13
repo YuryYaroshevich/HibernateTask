@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import com.epam.ht.db.dao.EmployeePaginalDao;
 import com.epam.ht.entity.employee.Employee;
-import com.epam.ht.util.PagingHelper;
 
 final class SetNEmplPerPageCommand implements Command {
 	@Override
@@ -24,9 +23,7 @@ final class SetNEmplPerPageCommand implements Command {
 		session.setAttribute(N_EMPLS_PER_PAGE, nEmplPerPage);
 		// counts number of pages for paging tag
 		int numberOfEmployees = emplDao.countEmployees();
-		int numberOfPages = PagingHelper.countNumberOfPages(numberOfEmployees,
-				nEmplPerPage);
-		session.setAttribute(NUMBER_OF_PAGES, numberOfPages);
+		session.setAttribute(NUMBER_OF_EMPLOYEES, numberOfEmployees);
 		session.setAttribute(CURRENT_PAGE_INDEX, DEFAULT_PAGE_INDEX);
 	}
 }

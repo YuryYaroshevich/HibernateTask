@@ -17,15 +17,13 @@
 			<key column="EMPLOYEE_ID" />
 			<map-key-many-to-many column="OFFICE_ID"
 				class="com.epam.ht.entity.office.Office" />
-			<composite-element class="Position">
-				<property name="position" column="POSITION" />
-			</composite-element>
+			<many-to-many column="POSITION_ID" class="Position" />
 		</map>
 	</class>
 
 	<sql-query name="query.CorrespondEmployeeIds">
 		<return-scalar column="employee_id" type="long" />
-	    <![CDATA[select employee_id from yra.employee where rownum <= :rows_number]]>
+	    <![CDATA[select employee_id from yra.employee]]>
 	</sql-query> 
 	<sql-query name="query.CorrespondOfficeIds">
 		<return-scalar column="office_id" type="long" />

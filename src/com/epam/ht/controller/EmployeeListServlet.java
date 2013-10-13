@@ -35,7 +35,7 @@ public final class EmployeeListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			EmployeePaginalDao emplDAO = EmployeePaginalDaoFactory
-					.getEmployeeDAO(JPA);
+					.getEmployeeDAO(JDBC);
 			Command command = CommandCreator.createCommand(req);
 			command.execute(req, emplDAO);
 			String dispatchPath = getServletContext().getInitParameter(

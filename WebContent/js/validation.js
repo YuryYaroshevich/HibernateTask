@@ -1,11 +1,11 @@
 $(document).ready(function() {
-	$("#empls-number-form").submit(function() {
-		var $input = $(this).find("#empls-number");
+	$("#entites-number-form").submit(function() {
+		var $input = $(this).find("#entities-number");
 		return isValid($input.val(), $(this));
 	});
 	
 	$("#go-to-page-form").submit(function() {
-		var $input = $(this).find("input[name='pageIndex']");
+		var $input = $(this).find("input[name='currentIndex']");
 		return isValid($input.val(), $(this));
 	});
 });

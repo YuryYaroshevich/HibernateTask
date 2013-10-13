@@ -16,9 +16,11 @@
 <body>
 	<h2>Employee list</h2>
 	<div id="paging-tag">
-		<hbtg:paging />
+		<hbtg:paging indexesPerPage="20" currentIndex="${currentIndex}"
+			numOfEntities="${numOfEntities}"
+			numOfEntsPerPage="${numOfEntsPerPage}" />
 	</div>
-<table>
+	<table>
 		<tr>
 			<th rowspan="2">Index</th>
 			<th rowspan="2">Name</th>

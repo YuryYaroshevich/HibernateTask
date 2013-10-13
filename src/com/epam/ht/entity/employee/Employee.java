@@ -33,7 +33,7 @@ import com.epam.ht.entity.office.Office;
 
 @Entity
 @NamedQueries({
-		@NamedQuery(name = EMPLOYEE_LIST, query = "from Employee emp inner join fetch emp.jobs"
+		@NamedQuery(name = EMPLOYEE_LIST, query = "select distinct emp from Employee emp inner join fetch emp.jobs"
 				+ " inner join fetch emp.address addr"
 				+ " inner join fetch addr.city c"
 				+ " inner join fetch c.country"

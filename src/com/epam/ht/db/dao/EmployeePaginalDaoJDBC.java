@@ -30,6 +30,7 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 
 	// Column names
 	private static final String EMPLOYEE_ID_COL = "employee_id";
+	private static final String POSITION_ID_COL = "position_id";
 	private static final String POSITION_COL = "position";
 	private static final String FIRST_NAME_COL = "first_name";
 	private static final String LAST_NAME_COL = "last_name";
@@ -65,8 +66,7 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 		ConnectionPool pool = ConnectionPool.getInstance();
 		try {
 			con = pool.getConnection();
-			return fetchCorrespondEmployees(con, nEmplsPerPage,
-					pageNumber);
+			return fetchCorrespondEmployees(con, nEmplsPerPage, pageNumber);
 		} finally {
 			pool.makeConnectionFree(con);
 		}
@@ -81,16 +81,14 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 			// count first and last row numbers
 			int firstRowNumb = nEmplsPerPage * (pageNumber - 1) + 1;
 			int lastRowNumb = firstRowNumb + nEmplsPerPage - 1;
-			statem.setInt(1, firstRowNumb);
-			statem.setInt(2, lastRowNumb);
+			statem.setInt(2, firstRowNumb);
+			statem.setInt(1, lastRowNumb);
 			rsltSet = statem.executeQuery();
 			// processing of resultSet
 			List<Employee> employees = new ArrayList<Employee>();
 			long currentEmployeeId;
 			long previousEmployeeId = -1;
 			Employee empl = null;
-			Position position = null;
-			Office office = null;
 			Map<Office, Position> jobs = null;
 			// resultSet ordered by employee id
 			while (rsltSet.next()) {
@@ -100,19 +98,15 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 					// fetch new employee and fetch his first job
 					empl = buildEmployee(rsltSet, currentEmployeeId);
 					employees.add(empl);
-					position = new Position(rsltSet.getString(POSITION_COL));
-					office = buildOffice(rsltSet);
 					jobs = new HashMap<Office, Position>();
 					empl.setJobs(jobs);
-					jobs.put(office, position);
+					addJob(jobs, rsltSet);
 				} else {
 					// add office to existing employee
-					position = new Position(rsltSet.getString(POSITION_COL));
-					office = buildOffice(rsltSet);
-					jobs.put(office, position);
+					addJob(jobs, rsltSet);
 				}
 				previousEmployeeId = currentEmployeeId;
-			}		
+			}
 			return employees;
 		} finally {
 			closeResultSet(rsltSet);
@@ -161,6 +155,14 @@ final class EmployeePaginalDaoJDBC implements EmployeePaginalDao {
 		city.setCountry(country);
 
 		return office;
+	}
+
+	private static void addJob(Map<Office, Position> jobs, ResultSet rsltSet)
+			throws SQLException {
+		Position position = new Position(rsltSet.getString(POSITION_COL));
+		position.setId(rsltSet.getLong(POSITION_ID_COL));
+		Office office = buildOffice(rsltSet);
+		jobs.put(office, position);
 	}
 
 	@Override

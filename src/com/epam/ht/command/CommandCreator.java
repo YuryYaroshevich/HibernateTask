@@ -5,6 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 
 public final class CommandCreator {
 	private static final String ATTR_NAME_COMMAND = "command";
+	
+	private static enum CommandEnum {
+		VIEW_PAGE, SET_NUMB_EMPLOYEES_PER_PAGE, DEFAULT_COMMAND
+	}
 
 	private CommandCreator() {
 	}

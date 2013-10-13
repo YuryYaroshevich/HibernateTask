@@ -10,5 +10,25 @@
 		<name>paging</name>
 		<tag-class>com.epam.ht.tag.PaginalOutputTag</tag-class>
 		<body-content>empty</body-content>
+		<attribute>
+			<name>indexesPerPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>currentIndex</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>numOfEntities</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>numOfEntsPerPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
 	</tag>
 </taglib>	
